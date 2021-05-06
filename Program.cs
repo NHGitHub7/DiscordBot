@@ -7,6 +7,7 @@ namespace DiscordBot
         static void Main(string[] args)
         {
             // HACK Test
+            // TODO test ^^
         }
     }
 }
