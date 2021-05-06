@@ -2,12 +2,12 @@
 
 namespace DiscordBot
 {
-    class Program
+  class Program
+  {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            // HACK Test
-            // TODO test ^^
-        }
+      // HACK Test
+      // TODO test ^^
     }
+  }
 }
