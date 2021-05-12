@@ -1,6 +1,8 @@
 ﻿using DiscordBot.Helper;
 using DSharpPlus;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
+using System;
 
 namespace DiscordBot
 {
@@ -8,6 +10,8 @@ namespace DiscordBot
     {
         static void Main(string[] args)
         {
+
+            sql_conn();
             MainAsync().GetAwaiter().GetResult();
         }
 
@@ -29,6 +33,26 @@ namespace DiscordBot
 
             await discord.ConnectAsync();
             await Task.Delay(-1);
+        }
+
+        static void sql_conn()
+        {
+            System.Text.StringBuilder connString = new System.Text.StringBuilder();
+            connString.Append("Server=localhost;")
+                .Append("Port=3308;")
+                .Append("Database=discord_bot;")
+                .Append("Uid=root;")
+                .Append("password=Admin_01!;");
+
+            Console.WriteLine(connString.ToString());
+            using var con = new MySqlConnection(connString.ToString());
+            con.Open();
+            
+            var stm = "SELECT VERSION()";
+            var cmd = new MySqlCommand(stm, con);
+
+            var version = cmd.ExecuteScalar().ToString();
+            Console.WriteLine($"MySQL version: {version}");
         }
     }
 }
