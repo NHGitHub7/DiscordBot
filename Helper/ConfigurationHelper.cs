@@ -8,7 +8,7 @@ namespace DiscordBot.Helper
     {
         public IConfigurationBuilder Builder()
         {
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("configuration.json", optional: false);
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("config.json", optional: false);
 
             return builder;
         }
