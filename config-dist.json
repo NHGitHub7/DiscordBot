@@ -1,5 +1,12 @@
 {
   "OAuth": {
     "Token": "<our discord bot token. vgl. our discord server. it's pinned. ^^"
+  },
+  "DB": {
+    "host": "localhost",
+    "port": 3308,
+    "name": "<your_db_name>",
+    "user": "<your_db_user>",
+    "password": "<your_db_pass>"
   }
 }
