@@ -10,7 +10,9 @@ namespace DiscordBot
   {
     static void Main(string[] args)
     {
-      MainAsync().GetAwaiter().GetResult();
+      var db = new Database();
+      Console.WriteLine(db.runSQL("SELECT VERSION()"));
+      //MainAsync().GetAwaiter().GetResult();
     }
 
     static async Task MainAsync()
@@ -27,7 +29,7 @@ namespace DiscordBot
         {
           if (e.Message.Content.ToLower().StartsWith("ping"))
             await e.Message.RespondAsync("pong!");
-      };
+        };
       await discord.ConnectAsync();
       await Task.Delay(-1);
     }
