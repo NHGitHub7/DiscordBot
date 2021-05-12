@@ -10,9 +10,7 @@ namespace DiscordBot
   {
     static void Main(string[] args)
     {
-      var db = new Database();
-      Console.WriteLine(db.runSQL("SELECT VERSION()"));
-      //MainAsync().GetAwaiter().GetResult();
+      MainAsync().GetAwaiter().GetResult();
     }
 
     static async Task MainAsync()
