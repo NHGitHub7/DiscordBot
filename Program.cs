@@ -38,7 +38,7 @@ namespace DiscordBot
 
             if (e.Message.Content.ToLower().StartsWith("ping"))
                 await e.Message.RespondAsync("pong");
-            if (e.Message.Content.ToLower().StartsWith("getdiscord"))
+            if (e.Message.Content.ToLower().StartsWith("!getdiscord"))
             {
 
                 arrayGuilds = new List<DiscordGuild>(discord.Guilds.Values).ToArray();
@@ -68,7 +68,8 @@ namespace DiscordBot
         var discord = new DiscordClient(new DiscordConfiguration()
         {
             Token = configurationHelper.GetOAuthValue().Token,
-            TokenType = TokenType.Bot
+            TokenType = TokenType.Bot,
+            Intents = DiscordIntents.All
         });
         DiscordChannel[] arrayChannels;
         DiscordGuild[] arrayGuilds;
@@ -79,6 +80,7 @@ namespace DiscordBot
             foreach (var guild in arrayGuilds)
             {
                 arrayRoles = new List<DiscordRole>(guild.Roles.Values).ToArray();
+                
                 foreach (var role in arrayRoles)
                 {
                     if (role.Name == "TestF")
