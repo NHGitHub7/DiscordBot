@@ -6,9 +6,19 @@ using System;
 using System.Reflection.Metadata.Ecma335;
 using DSharpPlus.Entities;
 using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using DSharpPlus.CommandsNext;
 using MySqlX.XDevAPI;
 using Client = MySql.Data.MySqlClient.Memcached.Client;
 using DSharpPlus.EventArgs;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using DiscordBot.Rolemanager;
+using System.Collections.Specialized;
+using Newtonsoft.Json.Linq;
 
 
 namespace DiscordBot
@@ -17,8 +27,9 @@ namespace DiscordBot
   {
     static void Main(string[] args)
     {
-      //MainAsync().GetAwaiter().GetResult();
-      GuildmemberTask().GetAwaiter().GetResult();
+            //MainAsync().GetAwaiter().GetResult();
+            //GuildmemberTask().GetAwaiter().GetResult();
+
     }
 
     static async Task MainAsync()
@@ -79,6 +90,14 @@ namespace DiscordBot
         DiscordRole[] arrayRoles;
         GuildMemberAddEventArgs globalMember = null;
         /*
+         * Command Prefix you need, to use the Command.
+         */
+        var commands = discord.UseCommandsNext(new CommandsNextConfiguration()
+        {
+            StringPrefixes = new[] {"!"}
+        });
+        commands.RegisterCommands<RoleCommands>();
+        /*
          * Event that reacts on User Join in your Guild.
          */
         discord.GuildMemberAdded += async (s, e) =>
@@ -114,5 +133,15 @@ namespace DiscordBot
         await discord.ConnectAsync();
         await Task.Delay(-1);
         }
+  }
+
+  public class RoleCommands : BaseCommandModule
+  {
+      [Command("beispiel")]
+      public async Task AddKeyCodeToRole(CommandContext ctx, string rolename, string keycode)
+      {
+            
+      }
+
   }
 }
