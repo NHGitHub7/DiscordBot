@@ -114,9 +114,9 @@ namespace DiscordBot
        */
       discord.MessageCreated += async (s, e) =>
       {
-          /*
-           * Bot reacts to private User Message to get his defined Role.
-           */
+        /*
+         * Bot reacts to private User Message to get his defined Role.
+         */
         if (e.Channel.IsPrivate == true && e.Message.Content.ToLower().StartsWith("givemerole"))
         {
           arrayGuilds = new List<DiscordGuild>(discord.Guilds.Values).ToArray();
