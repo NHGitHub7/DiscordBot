@@ -46,7 +46,8 @@ namespace DiscordBot.DB
         Console.WriteLine("No version Table found.\nWriting DDL File to DB.\nPlease wait.");
         this.writeDefaultSetup();
         Console.WriteLine("DB Tables created");
-      } else
+      }
+      else
       {
         Console.WriteLine("DB is up to date");
       }
@@ -55,7 +56,7 @@ namespace DiscordBot.DB
     {
       this.conn.Open();
 
-      string query = 
+      string query =
         "SELECT CREATE_TIME " +
         "FROM information_schema.tables " +
         "WHERE table_schema = 'discord_bot' " +
@@ -63,13 +64,14 @@ namespace DiscordBot.DB
         "LIMIT 1";
 
       var cmd = new MySqlCommand(query, this.conn);
-      object check = cmd.ExecuteScalar(); 
+      object check = cmd.ExecuteScalar();
       conn.Close();
 
       if (check == null)
       {
         return false;
-      } else
+      }
+      else
       {
         return true;
       }
