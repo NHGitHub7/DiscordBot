@@ -23,14 +23,15 @@ namespace DiscordBot.DB
 
       conn = connection;
     }
+
+    //Methode um ein SQL Statement auszuführen
     public string runSQL(string query)
     {
-
       this.conn.Open();
 
       var cmd = new MySqlCommand(query, conn);
 
-      string return_val = cmd.ExecuteScalar().ToString();
+      string  return_val = (string)cmd.ExecuteScalar();
 
       conn.Close();
 
