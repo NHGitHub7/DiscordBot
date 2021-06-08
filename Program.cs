@@ -10,7 +10,10 @@ namespace DiscordBot
   {
     static void Main(string[] args)
     {
-      MainAsync().GetAwaiter().GetResult();
+      var db = new Database();
+      db.defaultSetup();
+
+      //MainAsync().GetAwaiter().GetResult();
     }
 
     static async Task MainAsync()
