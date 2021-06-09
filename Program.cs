@@ -5,13 +5,36 @@ using System.Threading.Tasks;
 using System;
 using DSharpPlus.EventArgs;
 
+
 namespace DiscordBot
 {
   class Program
   {
     static void Main(string[] args)
     {
-      MainAsync().GetAwaiter().GetResult();
+      var db = new Database();
+      db.defaultSetup();
+      var tmp = db.runSQL("SELECT VESION()");
+
+      if (tmp[tmp.Length - 1].ToString() == "Error")
+      {
+        Console.WriteLine("Check your SQL Syntax");
+      }
+      else
+      {
+        foreach (var i in tmp)
+        {
+          Console.WriteLine(i);
+        }
+        {
+
+        }
+      }
+
+
+      //MainAsync().GetAwaiter().GetResult();
+      //GuildmemberTask().GetAwaiter().GetResult();
+
     }
 
     static async Task MainAsync()
@@ -27,6 +50,11 @@ namespace DiscordBot
         TokenType = TokenType.Bot
       });
 
+      DiscordChannel[] arrayChannels;
+      DiscordGuild[] arrayGuilds;
+      DiscordRole[] arrayRoles;
+
+
       discord.MessageCreated += async (s, e) =>
         {
             response = messageDistributor.GetMessage(e).ToString();
@@ -35,5 +63,15 @@ namespace DiscordBot
       await discord.ConnectAsync();
       await Task.Delay(-1);
     }
+  }
+
+  public class RoleCommands : BaseCommandModule
+  {
+    [Command("beispiel")]
+    public async Task AddKeyCodeToRole(CommandContext ctx, string rolename, string keycode)
+    {
+
+    }
+
   }
 }

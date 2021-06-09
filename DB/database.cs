@@ -1,9 +1,12 @@
 using MySql.Data.MySqlClient;
 using DiscordBot.Helper;
+using System;
+using System.IO;
+using System.Collections.Generic;
 
 namespace DiscordBot.DB
 {
-  class Database
+  public class Database
   {
     MySqlConnection conn;
 
@@ -21,21 +24,85 @@ namespace DiscordBot.DB
 
       using var connection = new MySqlConnection(connString.ToString());
 
-      conn = connection;
+      this.conn = connection;
     }
-
-    //Methode um ein SQL Statement auszuführen
-    public string runSQL(string query)
+    public Object[] runSQL(string query)
     {
       this.conn.Open();
 
-      var cmd = new MySqlCommand(query, conn);
+      var cmd = new MySqlCommand(query, this.conn);
 
-      string  return_val = (string)cmd.ExecuteScalar();
+      try
+      {
+        MySqlDataReader reader = cmd.ExecuteReader();
 
+        var array_length = reader.FieldCount;
+        Object[] values = new Object[array_length + 1];
+        while (reader.Read())
+        {
+          reader.GetValues(values);
+        }
+        this.conn.Close();
+
+        values[array_length] = "None";
+
+        return values;
+
+      }
+      catch (Exception e)
+      {
+        Object[] wrapper = new Object[2];
+        wrapper[0] = e;
+        wrapper[1] = "Error";
+        return wrapper;
+      }
+    }
+
+    public void defaultSetup()
+    {
+      if (!this.tablesExist())
+      {
+        Console.WriteLine("No version Table found.\nWriting DDL File to DB.\nPlease wait.");
+        this.writeDefaultSetup();
+        Console.WriteLine("DB Tables created");
+      }
+      else
+      {
+        Console.WriteLine("DB is up to date");
+      }
+    }
+    bool tablesExist()
+    {
+      this.conn.Open();
+
+      string query =
+        "SELECT CREATE_TIME " +
+        "FROM information_schema.tables " +
+        "WHERE table_schema = 'discord_bot' " +
+        "AND table_name = 'version' " +
+        "LIMIT 1";
+
+      var cmd = new MySqlCommand(query, this.conn);
+      object check = cmd.ExecuteScalar();
       conn.Close();
 
-      return return_val;
+      if (check == null)
+      {
+        return false;
+      }
+      else
+      {
+        return true;
+      }
+    }
+
+    void writeDefaultSetup()
+    {
+      this.conn.Open();
+      string ddl = File.ReadAllText(@"DB\DDL.sql");
+      var cmd = new MySqlCommand(ddl, this.conn);
+      cmd.ExecuteScalar();
+      this.conn.Close();
     }
   }
 }
