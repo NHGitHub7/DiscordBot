@@ -29,6 +29,23 @@ namespace DiscordBot
     {
       var db = new Database();
       db.defaultSetup();
+      var tmp = db.runSQL("SELECT VESION()");
+
+      if (tmp[tmp.Length - 1].ToString() == "Error")
+      {
+        Console.WriteLine("Check your SQL Syntax");
+      }
+      else
+      {
+        foreach (var i in tmp)
+        {
+          Console.WriteLine(i);
+        }
+        {
+
+        }
+      }
+
 
       //MainAsync().GetAwaiter().GetResult();
       //GuildmemberTask().GetAwaiter().GetResult();

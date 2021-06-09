@@ -2,6 +2,7 @@ using MySql.Data.MySqlClient;
 using DiscordBot.Helper;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace DiscordBot.DB
 {
@@ -25,18 +26,37 @@ namespace DiscordBot.DB
 
       this.conn = connection;
     }
-    public string runSQL(string query)
+    public Object[] runSQL(string query)
     {
 
       this.conn.Open();
 
       var cmd = new MySqlCommand(query, this.conn);
 
-      string return_val = cmd.ExecuteReader().ToString();
+      try
+      {
+        MySqlDataReader reader = cmd.ExecuteReader();
 
-      this.conn.Close();
+        var array_length = reader.FieldCount;
+        Object[] values = new Object[array_length + 1];
+        while (reader.Read())
+        {
+          reader.GetValues(values);
+        }
+        this.conn.Close();
 
-      return return_val;
+        values[array_length] = "None";
+
+        return values;
+
+      }
+      catch (Exception e)
+      {
+        Object[] wrapper = new Object[2];
+        wrapper[0] = e;
+        wrapper[1] = "Error";
+        return wrapper;
+      }
     }
 
     public void defaultSetup()
