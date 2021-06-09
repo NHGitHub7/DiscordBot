@@ -8,5 +8,7 @@ namespace DiscordBot.Rolemanager
     {
         public string Role { get; set; }
         public string KeyCode { get; set; }
+
+
     }
 }

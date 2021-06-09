@@ -29,9 +29,12 @@ namespace DiscordBot
     {
             //MainAsync().GetAwaiter().GetResult();
             //GuildmemberTask().GetAwaiter().GetResult();
+            var db = new Database();
 
+            string sqlQuery = "SELECT rolename, keycode FROM CustomRoles";
+            var returnvalue = db.runSQL(sqlQuery);
+            Console.WriteLine(returnvalue);
     }
-
     static async Task MainAsync()
     {
       ConfigurationHelper configurationHelper = new ConfigurationHelper();
@@ -136,12 +139,42 @@ namespace DiscordBot
   }
 
   public class RoleCommands : BaseCommandModule
-  {
-      [Command("beispiel")]
+  { 
+      
+      [Command("saverolewithpw")]
       public async Task AddKeyCodeToRole(CommandContext ctx, string rolename, string keycode)
       {
-            
+          await SaveRoleToDB(rolename, keycode, ctx);
+      }
+      [Command("updaterolewithpw")]
+      public async Task UpdateKeyCodeFromRole(CommandContext ctx, string rolename, string keycode)
+      {
+          await UpdateRoleInDB(rolename, keycode, ctx);
       }
 
-  }
+      private async Task SaveRoleToDB(string customrolename, string customkeycode, CommandContext ctx)
+      {
+          var db = new Database();
+          //string sqlQuery = $"INSERT INTO CustomRoles (rolename, keycode) VALUES ('{customrolename}', '{customkeycode}')";
+          string sqlQuery = $"SELECT * FROM CustomRoles WHERE rolename='{customrolename}'";
+          string returnsql = db.runSQL(sqlQuery);
+          if (returnsql == "1")
+          {
+              await ctx.RespondAsync("This Role already exists with a Password. If you want to update the Password use !updaterolewithpw {rolename} {keycode}");
+          }
+          else
+          {
+              sqlQuery = $"INSERT INTO CustomRoles (rolename, keycode) VALUES ('{customrolename}', '{customkeycode}')";
+              db.runSQL(sqlQuery);
+          }
+      }
+
+      private async Task UpdateRoleInDB(string customrolename, string customkeycode, CommandContext ctx)
+      {
+          var db = new Database();
+
+          string sqlQuery = $"UPDATE CustomRoles SET keycode = '{customkeycode}' WHERE rolename='{customrolename}'";
+          db.runSQL(sqlQuery);
+      }
+    }
 }

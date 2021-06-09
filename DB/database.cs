@@ -29,12 +29,19 @@ namespace DiscordBot.DB
       this.conn.Open();
 
       var cmd = new MySqlCommand(query, conn);
-
-      string return_val = cmd.ExecuteScalar().ToString();
-
+      var return_val = cmd.ExecuteScalar();
       conn.Close();
-
-      return return_val;
+      /*
+       * ExecuteScalar returns sometimes null this created an Error because the return needs to be a string.
+       */
+      if(return_val == null)
+      {
+          return "0";
+      }
+      else
+      {
+          return return_val.ToString();
+      }
     }
   }
 }
