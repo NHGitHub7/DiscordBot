@@ -1,4 +1,6 @@
-﻿using DSharpPlus.EventArgs;
+﻿using DiscordBot.DB;
+using DiscordBot.Model.DbTables;
+using DSharpPlus.EventArgs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,11 +12,13 @@ namespace DiscordBot.Helper
     //Methode die eine Nachricht passend weiterleitet
     public string GetMessage(MessageCreateEventArgs message)
     {
+      Database database = new Database();
+      // CustomCommand customCommand = new CustomCommand();
       string response = String.Empty;
 
       // Zuweisung für CustomCommands
       #region CustomCommands
-      CustomCommand customCommand = new CustomCommand();
+      CustomCommands customCommand = new CustomCommands();
 
       if (message.Message.Content.ToLower().StartsWith("!addcustomcommand"))
       {
@@ -27,6 +31,19 @@ namespace DiscordBot.Helper
       else if (message.Message.Content.ToLower().StartsWith("!deletecustomcommand"))
       {
         response = customCommand.DeleteDatabaseEntry(message);
+      }
+      else if(message.Message.Content.ToLower().StartsWith("!"))
+      {
+        string title = String.Empty;
+
+        var dbEntry = database.runSQL($"Select * FROM CustomCommands WHERE CommandName = '{title}' LIMIT 1");
+
+
+        
+        if(true)
+        {
+
+        }
       }
       #endregion
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DiscordBot
 {
-  class CustomCommand
+  class CustomCommands
   {
     #region Variables
     Database database = new Database();
@@ -86,8 +86,6 @@ namespace DiscordBot
       {
         commandName = message.Message.Content.Split(" ")[1].ToString();
 
-        user = message.Message.Author.ToString();
-
         addToDb = $"DELETE FROM customcommands WHERE CommandName = '{commandName}'";
 
         database.runSQL(addToDb);
@@ -98,6 +96,15 @@ namespace DiscordBot
       }
 
       return "Command gelöscht.";
+    }
+
+    public string RespondToCommand()
+    {
+      string response = String.Empty;
+      
+      //Hier Funktion um den Command auszuführen
+
+      return response;
     }
   }
 }
