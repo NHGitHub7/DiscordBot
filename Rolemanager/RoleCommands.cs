@@ -28,8 +28,8 @@ namespace DiscordBot.Rolemanager
             var db = new Database();
             //string sqlQuery = $"INSERT INTO CustomRoles (rolename, keycode) VALUES ('{customrolename}', '{customkeycode}')";
             string sqlQuery = $"SELECT * FROM CustomRoles WHERE rolename='{customrolename}'";
-            string returnsql = db.runSQL(sqlQuery);
-            if (returnsql == "1")
+            var returnsql = db.runSQL(sqlQuery);
+            if (returnsql.Count != 0 )
             {
                 await ctx.RespondAsync("This Role already exists with a Password. If you want to update the Password use !updaterolewithpw {rolename} {keycode}");
             }

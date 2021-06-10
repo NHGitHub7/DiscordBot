@@ -28,23 +28,18 @@ namespace DiscordBot
     {
       var db = new Database();
       db.defaultSetup();
-      var tmp = db.runSQL("SELECT * FROM CustomRoles");
+      /*var tmp = db.runSQL("SELECT rolename, keycode FROM CustomRoles");
 
-      foreach (var i in tmp)
+      for (var i = 0; i < tmp.Count; i++)
       {
-        foreach (var j in i)
+        for (var j = 0; j < tmp[i].Length; j++)
         {
-          Console.WriteLine(j);
+          Console.WriteLine($"{j}" + tmp[i][j]);
         }
-      }
-
-
+      }*/
+      
       //MainAsync().GetAwaiter().GetResult();
-      //GuildmemberTask().GetAwaiter().GetResult();
-
-      string sqlQuery = "SELECT rolename, keycode FROM CustomRoles";
-            var returnvalue = db.runSQL(sqlQuery);
-            Console.WriteLine(returnvalue);
+      GuildmemberTask().GetAwaiter().GetResult();
     }
     static async Task MainAsync()
     {
@@ -125,24 +120,47 @@ namespace DiscordBot
        */
       discord.MessageCreated += async (s, e) =>
       {
+        var db = new Database();
+        var tmp = db.runSQL("SELECT rolename, keycode FROM CustomRoles");
         /*
          * Bot reacts to private User Message to get his defined Role.
+         * SQL Query template used for tests(Roles need to exist on Discord Server):
+         * create table CustomRoles
+          (
+            RoleID int primary key auto_increment,
+            rolename varchar(255),
+            keycode varchar(255)
+           );
+            insert into CustomRoles (rolename, keycode)
+            values("Moderator", "Moderator123");
+            insert into CustomRoles (rolename, keycode)
+            values ("Supporter", "Supporter123");
+            insert into CustomRoles (rolename, keycode)
+            values ("Member", "Member123");
          */
-        if (e.Channel.IsPrivate == true && e.Message.Content.ToLower().StartsWith("givemerole"))
+        for (var i = 0; i < tmp.Count; i++)
         {
-          arrayGuilds = new List<DiscordGuild>(discord.Guilds.Values).ToArray();
-          foreach (var guild in arrayGuilds)
+          for (var j = 0; j < tmp[i].Length; j++)
           {
-            arrayRoles = new List<DiscordRole>(guild.Roles.Values).ToArray();
-
-            foreach (var role in arrayRoles)
+            if (e.Channel.IsPrivate == true && e.Message.Content.StartsWith(tmp[i][1].ToString()))
             {
-              if (role.Name == "TestF")
+              arrayGuilds = new List<DiscordGuild>(discord.Guilds.Values).ToArray();
+              foreach (var guild in arrayGuilds)
+              {
+                arrayRoles = new List<DiscordRole>(guild.Roles.Values).ToArray();
 
-                await globalMember.Member.GrantRoleAsync(role);
+                foreach (var role in arrayRoles)
+                {
+                  if (role.Name == tmp[i][0].ToString())
+
+                    await globalMember.Member.GrantRoleAsync(role);
+                }
+              }
             }
           }
         }
+
+        
       };
       await discord.ConnectAsync();
       await Task.Delay(-1);
