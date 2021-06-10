@@ -98,11 +98,14 @@ namespace DiscordBot
       return "Command gelöscht.";
     }
 
+    //Methode um auf einen Command zu reagieren
     public string RespondToCommand()
     {
       string response = String.Empty;
+      object[] dbEntry;
+
+      dbEntry = database.runSQL("");
       
-      //Hier Funktion um den Command auszuführen
 
       return response;
     }

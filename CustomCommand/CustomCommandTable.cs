@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DiscordBot.Model.DbTables
 {
-  class CustomCommand
+  class CustomCommandTable
   {
     public int CustomCommandId { get; set; }
 

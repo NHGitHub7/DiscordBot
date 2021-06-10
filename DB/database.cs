@@ -51,10 +51,9 @@ namespace DiscordBot.DB
       }
       catch (Exception e)
       {
-        Object[] wrapper = new Object[2];
-        wrapper[0] = e;
-        wrapper[1] = "Error";
-        return wrapper;
+        object[] r = new object[1];
+        r[0] = e;
+        return r;
       }
     }
 
@@ -71,7 +70,7 @@ namespace DiscordBot.DB
         Console.WriteLine("DB is up to date");
       }
     }
-    bool tablesExist()
+    private bool tablesExist()
     {
       this.conn.Open();
 
@@ -96,7 +95,7 @@ namespace DiscordBot.DB
       }
     }
 
-    void writeDefaultSetup()
+    private void writeDefaultSetup()
     {
       this.conn.Open();
       string ddl = File.ReadAllText(@"DB\DDL.sql");
