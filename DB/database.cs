@@ -26,36 +26,27 @@ namespace DiscordBot.DB
 
       this.conn = connection;
     }
-    public Object[] runSQL(string query)
+    public List<object[]> runSQL(string query)
     {
 
       this.conn.Open();
 
       var cmd = new MySqlCommand(query, this.conn);
 
-      try
+      MySqlDataReader reader = cmd.ExecuteReader();
+
+      var array_length = reader.FieldCount;
+      List<object[]> tmp = new List<object[]>();
+
+      while (reader.Read())
       {
-        MySqlDataReader reader = cmd.ExecuteReader();
-
-        var array_length = reader.FieldCount;
-        Object[] values = new Object[array_length + 1];
-        while (reader.Read())
-        {
-          reader.GetValues(values);
-        }
-        this.conn.Close();
-
-        values[array_length] = "None";
-
-        return values;
+        object[] values = new object[array_length];
+        reader.GetValues(values);
+        tmp.Add(values);
       }
-      catch (Exception e)
-      {
-        Object[] wrapper = new Object[2];
-        wrapper[0] = e;
-        wrapper[1] = "Error";
-        return wrapper;
-      }
+      this.conn.Close();
+
+      return tmp;
     }
 
     public void defaultSetup()
