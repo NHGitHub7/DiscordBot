@@ -27,9 +27,9 @@ namespace DiscordBot
   {
     static void Main(string[] args)
     {
-      var db = new Database();
-      db.defaultSetup();
-      var tmp = db.runSQL("SELECT * FROM CustomRoles");
+      Database.Init_Database();
+      Database.defaultSetup();
+      var tmp = Database.runSQL("SELECT * FROM CustomRoles");
 
       foreach (var i in tmp)
       {
