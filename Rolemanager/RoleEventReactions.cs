@@ -22,8 +22,7 @@ namespace DiscordBot.Rolemanager
       DiscordChannel[] arrayChannels;
       DiscordGuild[] arrayGuilds;
       DiscordRole[] arrayRoles;
-      var db = new Database();
-      var tmp = db.runSQL("SELECT rolename, keycode FROM CustomRoles");
+      var tmp = Database.runSQL("SELECT rolename, keycode FROM CustomRoles");
       
       /*
        * Bot reacts to private User Message to get his defined Role.

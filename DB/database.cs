@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace DiscordBot.DB
 {
-  public class Database
+  static class Database
   {
-    MySqlConnection conn;
+    static MySqlConnection conn;
 
-    public Database()
+    public static void Init_Database()
     {
       ConfigurationHelper configHelper = new ConfigurationHelper();
       DiscordBot.Model.DB_Access db = configHelper.GetDBAccessValues();
@@ -22,16 +22,16 @@ namespace DiscordBot.DB
           .Append($"Uid={db.user};")
           .Append($"password={db.password};");
 
-      using var connection = new MySqlConnection(connString.ToString());
+      MySqlConnection connection = new MySqlConnection(connString.ToString());
 
-      this.conn = connection;
+      conn = connection;
     }
-    public List<object[]> runSQL(string query)
+    public static List<object[]> runSQL(string query)
     {
 
-      this.conn.Open();
+      conn.Open();
 
-      var cmd = new MySqlCommand(query, this.conn);
+      var cmd = new MySqlCommand(query, conn);
 
       MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -44,17 +44,17 @@ namespace DiscordBot.DB
         reader.GetValues(values);
         tmp.Add(values);
       }
-      this.conn.Close();
+      conn.Close();
 
       return tmp;
     }
 
-    public void defaultSetup()
+    public static void defaultSetup()
     {
-      if (!this.tablesExist())
+      if (!tablesExist())
       {
         Console.WriteLine("No version Table found.\nWriting DDL File to DB.\nPlease wait.");
-        this.writeDefaultSetup();
+        writeDefaultSetup();
         Console.WriteLine("DB Tables created");
       }
       else
@@ -62,9 +62,9 @@ namespace DiscordBot.DB
         Console.WriteLine("DB is up to date");
       }
     }
-    bool tablesExist()
+    static bool tablesExist()
     {
-      this.conn.Open();
+      conn.Open();
 
       string query =
         "SELECT CREATE_TIME " +
@@ -73,7 +73,7 @@ namespace DiscordBot.DB
         "AND table_name = 'version' " +
         "LIMIT 1";
 
-      var cmd = new MySqlCommand(query, this.conn);
+      var cmd = new MySqlCommand(query, conn);
       object check = cmd.ExecuteScalar();
       conn.Close();
 
@@ -87,13 +87,13 @@ namespace DiscordBot.DB
       }
     }
 
-    void writeDefaultSetup()
+    static void writeDefaultSetup()
     {
-      this.conn.Open();
+      conn.Open();
       string ddl = File.ReadAllText(@"DB\DDL.sql");
-      var cmd = new MySqlCommand(ddl, this.conn);
+      var cmd = new MySqlCommand(ddl, conn);
       cmd.ExecuteScalar();
-      this.conn.Close();
+      conn.Close();
     }
   }
 }
