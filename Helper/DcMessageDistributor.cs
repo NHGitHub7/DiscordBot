@@ -34,23 +34,9 @@ namespace DiscordBot.Helper
       }
       else if(message.Message.Content.ToLower().StartsWith("!"))
       {
-        string title = String.Empty;
-
-        var dbEntry = database.runSQL($"Select * FROM CustomCommands WHERE CommandName = '{title}' LIMIT 1");
-
-
-        
-        if(true)
-        {
-
-        }
+        response = customCommand.RespondToCommand(message);
       }
       #endregion
-
-      else
-      {
-        //response = "Keine Übereinstimmung gefunden.";
-      }
 
       return response;
     }

@@ -1,4 +1,5 @@
 ﻿using DiscordBot.DB;
+using DiscordBot.Model.DbTables;
 using DSharpPlus.EventArgs;
 using System;
 using System.Collections.Generic;
@@ -99,15 +100,47 @@ namespace DiscordBot
     }
 
     //Methode um auf einen Command zu reagieren
-    public string RespondToCommand()
-    {
-      string response = String.Empty;
-      object[] dbEntry;
+      public string RespondToCommand(MessageCreateEventArgs message)
+      {
+        try
+        {
+          CustomCommandTable ccTable = new CustomCommandTable();
+          string title = message.Message.Content.Split("!")[1];
 
-      dbEntry = database.runSQL("");
-      
+          var dbEntry = database.runSQL($"Select * FROM CustomCommands WHERE CommandName = '{title}' LIMIT 1");
 
-      return response;
-    }
+          ccTable.CustomCommandId = Convert.ToInt32(dbEntry[0].GetValue(0));
+          ccTable.CommandName = Convert.ToString(dbEntry[0].GetValue(1));
+          ccTable.CommandResponse = Convert.ToString(dbEntry[0].GetValue(2));
+          ccTable.DateCreated = Convert.ToDateTime(dbEntry[0].GetValue(3));
+          ccTable.CreatedBy = Convert.ToString(dbEntry[0].GetValue(4));
+
+          // Problem with DBNull
+          if (dbEntry[0].GetValue(5) == System.DBNull.Value)
+          {
+            ccTable.ModifiedBy = "Keine Änderungen";
+          }
+          else
+          {
+            ccTable.ModifiedBy = Convert.ToString(dbEntry[0].GetValue(5));
+          }
+
+          //Problem with DateTime = Empty Not null/MinValue
+          if (dbEntry[0].GetValue(6) == System.DBNull.Value)
+          {
+            ccTable.DateModified = DateTime.MinValue;
+          }
+          else
+          {
+            ccTable.DateModified = Convert.ToDateTime(dbEntry[0].GetValue(6));
+          }
+
+          return ccTable.CommandResponse;
+        }
+        catch (Exception ex)
+        {
+          return ex.Message;
+        }
+      }
   }
 }
