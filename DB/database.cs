@@ -28,7 +28,6 @@ namespace DiscordBot.DB
     }
     public List<object[]> runSQL(string query)
     {
-
       this.conn.Open();
 
       var cmd = new MySqlCommand(query, this.conn);
@@ -62,7 +61,7 @@ namespace DiscordBot.DB
         Console.WriteLine("DB is up to date");
       }
     }
-    bool tablesExist()
+    private bool tablesExist()
     {
       this.conn.Open();
 
@@ -87,7 +86,7 @@ namespace DiscordBot.DB
       }
     }
 
-    void writeDefaultSetup()
+    private void writeDefaultSetup()
     {
       this.conn.Open();
       string ddl = File.ReadAllText(@"DB\DDL.sql");
