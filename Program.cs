@@ -27,8 +27,7 @@ namespace DiscordBot
       }
 
 
-      //MainAsync().GetAwaiter().GetResult();
-      //GuildmemberTask().GetAwaiter().GetResult();
+      MainAsync().GetAwaiter().GetResult();
 
     }
 
