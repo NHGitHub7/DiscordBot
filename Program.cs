@@ -35,8 +35,8 @@ namespace DiscordBot
 
       discord.MessageCreated += async (s, e) =>
         {
-            response = messageDistributor.GetMessage(e).ToString();
-            await e.Message.RespondAsync(response);
+          response = messageDistributor.GetMessage(e).ToString();
+          await e.Message.RespondAsync(response);
         };
 
       await discord.ConnectAsync();

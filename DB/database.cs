@@ -121,11 +121,12 @@ namespace DiscordBot.DB
           "UPDATE version " +
           $"SET version = {version_config.discord_bot} " +
           "WHERE name like 'discord_bot'";
-          conn.Open();
-          var cmd = new MySqlCommand(query, conn);
-          cmd.ExecuteScalar();
-          conn.Close();
-      } else
+        conn.Open();
+        var cmd = new MySqlCommand(query, conn);
+        cmd.ExecuteScalar();
+        conn.Close();
+      }
+      else
       {
         throw new ArgumentException("Parameter discord_bot cannot be null");
       }
