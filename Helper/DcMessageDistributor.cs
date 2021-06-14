@@ -12,7 +12,6 @@ namespace DiscordBot.Helper
     //Methode die eine Nachricht passend weiterleitet
     public string GetMessage(MessageCreateEventArgs message)
     {
-      Database database = new Database();
       // CustomCommand customCommand = new CustomCommand();
       string response = String.Empty;
 

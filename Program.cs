@@ -14,7 +14,22 @@ namespace DiscordBot
   {
     static void Main(string[] args)
     {
-      MainAsync().GetAwaiter().GetResult();
+      Database.Init_Database();
+      Database.defaultSetup();
+      var tmp = Database.runSQL("SELECT * FROM CustomRoles");
+
+      foreach (var i in tmp)
+      {
+        foreach (var j in i)
+        {
+          Console.WriteLine(j);
+        }
+      }
+
+
+      //MainAsync().GetAwaiter().GetResult();
+      //GuildmemberTask().GetAwaiter().GetResult();
+
     }
 
     static async Task MainAsync()
