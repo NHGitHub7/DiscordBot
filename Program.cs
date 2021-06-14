@@ -85,7 +85,7 @@ namespace DiscordBot
         TokenType = TokenType.Bot,
         Intents = DiscordIntents.All
       });
-      RoleEventReactions RoleEvents = new RoleEventReactions();
+      RoleEventReactions roleEvents = new RoleEventReactions();
       /*
        * Command Prefix you need, to use the Command.
        */
@@ -99,14 +99,14 @@ namespace DiscordBot
        */
       discord.GuildMemberAdded += async (s, e) =>
       {
-        await RoleEvents.ReactOnUserJoin(s, e);
+        await roleEvents.ReactOnUserJoin(s, e);
       };
       /*
        * Event that reacts on Message written from User.
        */
       discord.MessageCreated += async (s, e) =>
       {
-        await RoleEvents.ReactOnUserMessage(s, e, discord);
+        await roleEvents.ReactOnUserMessage(s, e, discord);
       };
       await discord.ConnectAsync();
       await Task.Delay(-1);

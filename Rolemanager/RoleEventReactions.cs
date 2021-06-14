@@ -11,12 +11,10 @@ namespace DiscordBot.Rolemanager
 {
   class RoleEventReactions
   {
-    private GuildMemberAddEventArgs globalMember = null;
     public async Task ReactOnUserJoin(DiscordClient s, GuildMemberAddEventArgs e)
     {
       await e.Member.CreateDmChannelAsync();
       await e.Member.SendMessageAsync("Do you have any special Keycode?");
-      globalMember = e;
     }
 
     public async Task ReactOnUserMessage(DiscordClient s, MessageCreateEventArgs e, DiscordClient discord)
@@ -26,6 +24,7 @@ namespace DiscordBot.Rolemanager
       DiscordRole[] arrayRoles;
       var db = new Database();
       var tmp = db.runSQL("SELECT rolename, keycode FROM CustomRoles");
+      
       /*
        * Bot reacts to private User Message to get his defined Role.
        * SQL Query template used for tests(Roles need to exist on Discord Server):
@@ -56,8 +55,7 @@ namespace DiscordBot.Rolemanager
               foreach (var role in arrayRoles)
               {
                 if (role.Name == tmp[i][0].ToString())
-
-                  await globalMember.Member.GrantRoleAsync(role);
+                  await guild.Members[e.Author.Id].GrantRoleAsync(role);
               }
             }
           }
