@@ -11,8 +11,6 @@ namespace DiscordBot
   class CustomCommands
   {
     #region Variables
-    Database database = new Database();
-
     string commandName = String.Empty;
     string commandResponse = String.Empty;
     string user = String.Empty;
@@ -48,7 +46,7 @@ namespace DiscordBot
 
         addToDb = $"INSERT INTO customcommands(CommandName, CommandResponse, DateCreated, CreatedBy) VALUES('{commandName}', '{commandResponse}', NOW(), '{user}')";
 
-        database.runSQL(addToDb);
+        Database.runSQL(addToDb);
       }
       catch (Exception exception)
       {
@@ -70,7 +68,7 @@ namespace DiscordBot
 
         addToDb = $"UPDATE customcommands SET CommandName = '{commandName}', CommandResponse = '{commandResponse}', DateModified = Now(), ModifiedBy = '{user}' WHERE CommandName = '{commandName}'";
 
-        database.runSQL(addToDb);
+        Database.runSQL(addToDb);
       }
       catch (Exception exception)
       {
@@ -89,7 +87,7 @@ namespace DiscordBot
 
         addToDb = $"DELETE FROM customcommands WHERE CommandName = '{commandName}'";
 
-        database.runSQL(addToDb);
+        Database.runSQL(addToDb);
       }
       catch (Exception exception)
       {
@@ -107,7 +105,7 @@ namespace DiscordBot
           CustomCommandTable ccTable = new CustomCommandTable();
           string title = message.Message.Content.Split("!")[1];
 
-          var dbEntry = database.runSQL($"Select * FROM CustomCommands WHERE CommandName = '{title}' LIMIT 1");
+          var dbEntry = Database.runSQL($"Select * FROM CustomCommands WHERE CommandName = '{title}' LIMIT 1");
 
           ccTable.CustomCommandId = Convert.ToInt32(dbEntry[0].GetValue(0));
           ccTable.CommandName = Convert.ToString(dbEntry[0].GetValue(1));
