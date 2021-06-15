@@ -12,7 +12,7 @@ namespace DiscordBot.Helper
   class DcMessageDistributor
   {
     //Methode die eine Nachricht passend weiterleitet
-    public string GetMessage(MessageCreateEventArgs message, DiscordClient discord)
+    public string GetMessage(MessageCreateEventArgs message)
     {
       // CustomCommand customCommand = new CustomCommand();
       string response = String.Empty;
