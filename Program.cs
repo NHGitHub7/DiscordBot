@@ -16,19 +16,7 @@ namespace DiscordBot
     {
       Database.Init_Database();
       Database.defaultSetup();
-      var tmp = Database.runSQL("SELECT * FROM CustomRoles");
-
-      foreach (var i in tmp)
-      {
-        foreach (var j in i)
-        {
-          Console.WriteLine(j);
-        }
-      }
-
-
       MainAsync().GetAwaiter().GetResult();
-
     }
 
     static async Task MainAsync()
@@ -46,8 +34,8 @@ namespace DiscordBot
 
       discord.MessageCreated += async (s, e) =>
         {
-            response = messageDistributor.GetMessage(e).ToString();
-            await e.Message.RespondAsync(response);
+          response = messageDistributor.GetMessage(e).ToString();
+          await e.Message.RespondAsync(response);
         };
 
       await discord.ConnectAsync();

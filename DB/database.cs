@@ -13,7 +13,7 @@ namespace DiscordBot.DB
     public static void Init_Database()
     {
       ConfigurationHelper configHelper = new ConfigurationHelper();
-      DiscordBot.Model.DB_Access db = configHelper.GetDBAccessValues();
+      Model.DB_Access db = configHelper.GetDBAccessValues();
 
       System.Text.StringBuilder connString = new System.Text.StringBuilder();
       connString.Append($"Server={db.host};")
@@ -57,6 +57,13 @@ namespace DiscordBot.DB
         writeDefaultSetup();
         Console.WriteLine("DB Tables created");
       }
+      else if (!versionUp2Date())
+      {
+        Console.WriteLine("Updated Version available. Rerunning DDL.");
+        writeDefaultSetup();
+        updateVersion();
+        Console.WriteLine("Updated to new Version");
+      }
       else
       {
         Console.WriteLine("DB is up to date");
@@ -84,6 +91,44 @@ namespace DiscordBot.DB
       else
       {
         return true;
+      }
+    }
+
+    static bool versionUp2Date()
+    {
+      ConfigurationHelper configHelper = new ConfigurationHelper();
+      Model.Versioning version_config = configHelper.GetVersion();
+      string query =
+        "SELECT version " +
+        "FROM version " +
+        "WHERE name like 'discord_bot'";
+      conn.Open();
+      var cmd = new MySqlCommand(query, conn);
+      string version_db_str = cmd.ExecuteScalar().ToString();
+      conn.Close();
+      int version_db = Int32.Parse(version_db_str);
+
+      return version_db == version_config.discord_bot;
+    }
+
+    static void updateVersion()
+    {
+      ConfigurationHelper configHelper = new ConfigurationHelper();
+      Model.Versioning version_config = configHelper.GetVersion();
+      if (version_config != null)
+      {
+        string query =
+          "UPDATE version " +
+          $"SET version = {version_config.discord_bot} " +
+          "WHERE name like 'discord_bot'";
+        conn.Open();
+        var cmd = new MySqlCommand(query, conn);
+        cmd.ExecuteScalar();
+        conn.Close();
+      }
+      else
+      {
+        throw new ArgumentException("Parameter discord_bot cannot be null");
       }
     }
 
