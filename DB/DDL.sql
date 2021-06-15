@@ -19,7 +19,7 @@ CREATE TABLE customcommands (
   DateModified datetime,
   PRIMARY KEY (CustomCommandId)
 );
-
+DROP TABLE IF EXISTS customroles;
 CREATE TABLE customroles(
   RoleID integer(11) NOT NULL AUTO_INCREMENT,
   rolename varchar(255),
