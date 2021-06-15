@@ -61,7 +61,7 @@ namespace DiscordBot
           }
           else
           {
-            response = messageDistributor.GetMessage(e, discord).ToString();
+            response = messageDistributor.GetMessage(e).ToString();
             await e.Message.RespondAsync(response);
           }
         };
