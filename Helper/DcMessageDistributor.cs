@@ -12,7 +12,7 @@ namespace DiscordBot.Helper
   class DcMessageDistributor
   {
     //Methode die eine Nachricht passend weiterleitet
-    public string GetMessage(MessageCreateEventArgs message, DiscordClient discord)
+    public string GetMessage(MessageCreateEventArgs message)
     {
       // CustomCommand customCommand = new CustomCommand();
       string response = String.Empty;
@@ -33,7 +33,7 @@ namespace DiscordBot.Helper
       {
         response = customCommand.DeleteDatabaseEntry(message);
       }
-      else if(message.Message.Content.ToLower().StartsWith("!"))
+      else if (message.Message.Content.ToLower().StartsWith("!"))
       {
         response = customCommand.RespondToCommand(message);
       }

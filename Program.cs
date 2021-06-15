@@ -48,7 +48,7 @@ namespace DiscordBot
         Token = configurationHelper.GetOAuthValue().Token,
         TokenType = TokenType.Bot,
         Intents = DiscordIntents.All
-      });      
+      });
       /*
        * Command Prefix you need, to use the Command.
        */
@@ -68,12 +68,12 @@ namespace DiscordBot
            */
           if (e.Channel.IsPrivate == true && e.Author.IsBot == false)
           {
-              await roleEvents.ReactOnUserMessage(e, discord);
-              await e.Message.RespondAsync("You will receive your Role.");
+            await roleEvents.ReactOnUserMessage(e, discord);
+            await e.Message.RespondAsync("You will receive your Role.");
           }
           else
           {
-            response = messageDistributor.GetMessage(e, discord).ToString();
+            response = messageDistributor.GetMessage(e).ToString();
             await e.Message.RespondAsync(response);
           }
         };
