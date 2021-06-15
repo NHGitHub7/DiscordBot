@@ -16,8 +16,7 @@ namespace DiscordBot
     {
       Database.Init_Database();
       Database.defaultSetup();
-
-      //MainAsync().GetAwaiter().GetResult();
+      MainAsync().GetAwaiter().GetResult();
     }
 
     static async Task MainAsync()
