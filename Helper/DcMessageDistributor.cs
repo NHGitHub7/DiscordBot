@@ -4,13 +4,15 @@ using DSharpPlus.EventArgs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DiscordBot.Rolemanager;
+using DSharpPlus;
 
 namespace DiscordBot.Helper
 {
   class DcMessageDistributor
   {
     //Methode die eine Nachricht passend weiterleitet
-    public string GetMessage(MessageCreateEventArgs message)
+    public string GetMessage(MessageCreateEventArgs message, DiscordClient discord)
     {
       // CustomCommand customCommand = new CustomCommand();
       string response = String.Empty;

@@ -17,3 +17,10 @@ CREATE TABLE customcommands (
   DateModified datetime,
   PRIMARY KEY (CustomCommandId)
 );
+
+CREATE TABLE customroles(
+  RoleID integer(11) NOT NULL AUTO_INCREMENT,
+  rolename varchar(255),
+  password varchar(255),
+  PRIMARY KEY (RoleID)
+);

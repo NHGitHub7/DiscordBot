@@ -25,7 +25,7 @@ namespace DiscordBot.Rolemanager
 
         private async Task SaveRoleToDB(string customrolename, string customkeycode, CommandContext ctx)
         {
-            string sqlQuery = $"SELECT * FROM CustomRoles WHERE rolename='{customrolename}'";
+            string sqlQuery = $"SELECT * FROM customroles WHERE rolename='{customrolename}'";
             var returnsql = Database.runSQL(sqlQuery);
             if (returnsql.Count != 0 )
             {
@@ -33,14 +33,14 @@ namespace DiscordBot.Rolemanager
             }
             else
             {
-                sqlQuery = $"INSERT INTO CustomRoles (rolename, keycode) VALUES ('{customrolename}', '{customkeycode}')";
+                sqlQuery = $"INSERT INTO customroles (rolename, keycode) VALUES ('{customrolename}', '{customkeycode}')";
                 Database.runSQL(sqlQuery);
             }
         }
 
         private async Task UpdateRoleInDB(string customrolename, string customkeycode, CommandContext ctx)
         {
-          string sqlQuery = $"UPDATE CustomRoles SET keycode = '{customkeycode}' WHERE rolename='{customrolename}'";
+          string sqlQuery = $"UPDATE customroles SET keycode = '{customkeycode}' WHERE rolename='{customrolename}'";
             Database.runSQL(sqlQuery);
         }
     }

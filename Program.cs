@@ -22,7 +22,7 @@ namespace DiscordBot
 
       Database.Init_Database();
       Database.defaultSetup();
-      var tmp = Database.runSQL("SELECT * FROM CustomRoles");
+      var tmp = Database.runSQL("SELECT * FROM customroles");
 
       foreach (var i in tmp)
       {
@@ -62,9 +62,20 @@ namespace DiscordBot
 
       discord.MessageCreated += async (s, e) =>
         {
-            response = messageDistributor.GetMessage(e).ToString();
+          /*
+           * If you have Questions ask me, unable to use messageDistributor because it is not an async Task,
+           * i need the await for that GrantRoleAsync Task vgl. Rolemanager/RoleEventReactions.cs line 56.
+           */
+          if (e.Channel.IsPrivate == true && e.Author.IsBot == false)
+          {
+              await roleEvents.ReactOnUserMessage(e, discord);
+              await e.Message.RespondAsync("You will receive your Role.");
+          }
+          else
+          {
+            response = messageDistributor.GetMessage(e, discord).ToString();
             await e.Message.RespondAsync(response);
-            await roleEvents.ReactOnUserMessage(s, e, discord);
+          }
         };
       /*
        * Event that reacts on User Join in your Guild.
