@@ -8,5 +8,8 @@
     "name": "your_db_name",
     "user": "your_db_user",
     "password": "your_db_pass"
+  },
+  "Version": {
+    "discord_bot": "2021061400"
   }
-}
+  }
