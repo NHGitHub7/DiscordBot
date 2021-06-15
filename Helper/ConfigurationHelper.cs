@@ -31,5 +31,12 @@ namespace DiscordBot.Helper
 
       return result;
     }
+    public Versioning GetVersion()
+    {
+      IConfiguration config = Builder().Build();
+
+      return config.GetSection("Version").Get<Versioning>();
+    }
+
   }
 }

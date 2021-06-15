@@ -33,7 +33,7 @@ namespace DiscordBot.Helper
       {
         response = customCommand.DeleteDatabaseEntry(message);
       }
-      else if(message.Message.Content.ToLower().StartsWith("!"))
+      else if (message.Message.Content.ToLower().StartsWith("!"))
       {
         response = customCommand.RespondToCommand(message);
       }

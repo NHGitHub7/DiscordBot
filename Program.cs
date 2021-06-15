@@ -1,4 +1,4 @@
-﻿using DiscordBot.Helper;
+using DiscordBot.Helper;
 using DiscordBot.DB;
 using DSharpPlus;
 using System.Threading.Tasks;
@@ -22,19 +22,7 @@ namespace DiscordBot
 
       Database.Init_Database();
       Database.defaultSetup();
-      var tmp = Database.runSQL("SELECT * FROM customroles");
-
-      foreach (var i in tmp)
-      {
-        foreach (var j in i)
-        {
-          Console.WriteLine(j);
-        }
-      }
-
-
       MainAsync().GetAwaiter().GetResult();
-
     }
     static async Task MainAsync()
     {
