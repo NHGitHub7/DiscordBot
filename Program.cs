@@ -19,10 +19,18 @@ namespace DiscordBot
   {
     static void Main(string[] args)
     {
-
-      Database.Init_Database();
-      Database.defaultSetup();
-      MainAsync().GetAwaiter().GetResult();
+      /*ConfigurationHelper configHelper = new ConfigurationHelper();
+      Model.Versioning version_config = configHelper.GetVersion();
+      if (typeof(object).IsInstanceOfType(version_config) == false)
+      {
+        Console.WriteLine("hlalo");
+      }
+      else
+      {*/
+        Database.Init_Database();
+        Database.defaultSetup();
+        MainAsync().GetAwaiter().GetResult();
+      //}
     }
     static async Task MainAsync()
     {
