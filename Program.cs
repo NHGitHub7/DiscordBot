@@ -2,6 +2,7 @@ using DiscordBot.Helper;
 using DiscordBot.DB;
 using DSharpPlus;
 using System.Threading.Tasks;
+using System.Threading;
 using System;
 using DSharpPlus.EventArgs;
 using DSharpPlus.CommandsNext.Attributes;
@@ -19,18 +20,21 @@ namespace DiscordBot
   {
     static void Main(string[] args)
     {
-      /*ConfigurationHelper configHelper = new ConfigurationHelper();
+      ConfigurationHelper configHelper = new ConfigurationHelper();
       Model.Versioning version_config = configHelper.GetVersion();
-      if (typeof(object).IsInstanceOfType(version_config) == false)
+      Model.OAuthorization oauth_config = configHelper.GetOAuthValue();
+      Model.DB_Access db_config = configHelper.GetDBAccessValues();
+
+      if (typeof(object).IsInstanceOfType(version_config) && typeof(object).IsInstanceOfType(oauth_config) && typeof(object).IsInstanceOfType(db_config))
       {
-        Console.WriteLine("hlalo");
-      }
-      else
-      {*/
         Database.Init_Database();
         Database.defaultSetup();
         MainAsync().GetAwaiter().GetResult();
-      //}
+      }
+      else
+      {
+        Console.WriteLine("Check your config, maybe something is missing!");
+      }
     }
     static async Task MainAsync()
     {
