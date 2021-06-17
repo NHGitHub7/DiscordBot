@@ -3,6 +3,7 @@ using DiscordBot.DB;
 using DiscordBot.Swearwords;
 using DSharpPlus;
 using System.Threading.Tasks;
+using System.Threading;
 using System;
 using DSharpPlus.EventArgs;
 using DSharpPlus.CommandsNext.Attributes;
@@ -21,11 +22,23 @@ namespace DiscordBot
   {
     static void Main(string[] args)
     {
-      Database.Init_Database();
-      Database.defaultSetup();
-      Blacklist.init();
+      ConfigurationHelper configHelper = new ConfigurationHelper();
+      Model.Versioning version_config = configHelper.GetVersion();
+      Model.OAuthorization oauth_config = configHelper.GetOAuthValue();
+      Model.DB_Access db_config = configHelper.GetDBAccessValues();
 
-      MainAsync().GetAwaiter().GetResult();
+      if (typeof(object).IsInstanceOfType(version_config) && typeof(object).IsInstanceOfType(oauth_config) && typeof(object).IsInstanceOfType(db_config))
+      {
+        Database.Init_Database();
+        Database.defaultSetup();
+        Blacklist.init();
+
+        MainAsync().GetAwaiter().GetResult();
+      }
+      else
+      {
+        Console.WriteLine("Check your config, maybe something is missing!");
+      }
     }
     static async Task MainAsync()
     {
