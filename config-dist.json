@@ -10,6 +10,6 @@
     "password": "your_db_pass"
   },
   "Version": {
-    "discord_bot": "2021061400"
+    "discord_bot": 2021061400
   }
-  }
+}

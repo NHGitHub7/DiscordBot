@@ -1,5 +1,6 @@
 using DiscordBot.Helper;
 using DiscordBot.DB;
+using DiscordBot.Swearwords;
 using DSharpPlus;
 using System.Threading.Tasks;
 using System;
@@ -13,15 +14,17 @@ using System.Threading.Channels;
 using Newtonsoft.Json.Linq;
 using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Converters;
 namespace DiscordBot
 {
   class Program
   {
     static void Main(string[] args)
     {
-
       Database.Init_Database();
       Database.defaultSetup();
+      Blacklist.init();
+
       MainAsync().GetAwaiter().GetResult();
     }
     static async Task MainAsync()
@@ -59,10 +62,9 @@ namespace DiscordBot
             await roleEvents.ReactOnUserMessage(e, discord);
             await e.Message.RespondAsync("You will receive your Role.");
           }
-          else
+          else if (e.Author.IsBot == false && Blacklist.is_swearword(e.Message.Content.ToLower()))
           {
-            response = messageDistributor.GetMessage(e).ToString();
-            await e.Message.RespondAsync(response);
+            await Blacklist.strike_user(e.Message, e.Author.Id, e.Guild, e.Channel, e.Author.Mention);
           }
         };
       /*

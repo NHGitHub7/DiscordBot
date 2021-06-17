@@ -2,6 +2,7 @@
 using DiscordBot.Model.DbTables;
 using DSharpPlus.EventArgs;
 using System;
+using DiscordBot.Swearwords;
 using System.Collections.Generic;
 using System.Text;
 using DiscordBot.Rolemanager;
@@ -16,26 +17,32 @@ namespace DiscordBot.Helper
     {
       // CustomCommand customCommand = new CustomCommand();
       string response = String.Empty;
+      Blacklist bl = new Blacklist();
 
       // Zuweisung für CustomCommands
       #region CustomCommands
       CustomCommands customCommand = new CustomCommands();
+      string msg = message.Message.Content.ToLower();
 
-      if (message.Message.Content.ToLower().StartsWith("!addcustomcommand"))
+      if (msg.StartsWith("!addcustomcommand"))
       {
         response = customCommand.AddDatabaseEntry(message);
       }
-      else if (message.Message.Content.ToLower().StartsWith("!updatecustomcommand"))
+      else if (msg.StartsWith("!updatecustomcommand"))
       {
         response = customCommand.UpdateDatabaseEntry(message);
       }
-      else if (message.Message.Content.ToLower().StartsWith("!deletecustomcommand"))
+      else if (msg.StartsWith("!deletecustomcommand"))
       {
         response = customCommand.DeleteDatabaseEntry(message);
       }
-      else if (message.Message.Content.ToLower().StartsWith("!"))
+      else if (msg.StartsWith("!"))
       {
         response = customCommand.RespondToCommand(message);
+      }
+      else if (Blacklist.is_swearword(msg))
+      {
+        response = "You wrote something bad!";
       }
       #endregion
 

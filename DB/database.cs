@@ -31,7 +31,7 @@ namespace DiscordBot.DB
 
       conn.Open();
 
-      var cmd = new MySqlCommand(query, conn);
+      MySqlCommand cmd = new MySqlCommand(query, conn);
 
       MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -47,6 +47,47 @@ namespace DiscordBot.DB
       conn.Close();
 
       return tmp;
+    }
+
+    public static object runScalar(string query)
+    {
+      MySqlCommand cmd = new MySqlCommand(query, conn);
+      conn.Open();
+      object return_val = cmd.ExecuteScalar();
+      conn.Close();
+
+      return return_val;
+    }
+
+    public static List<string> get_swearwords()
+    {
+
+      string query = "SELECT word " +
+       "FROM swearwords";
+      List<string> swearwords = new List<string>();
+
+      var cmd = new MySqlCommand(query, conn);
+      conn.Open();
+      MySqlDataReader reader = cmd.ExecuteReader();
+      while (reader.Read())
+      {
+        swearwords.Add(reader.GetString(0));
+      }
+      conn.Close();
+
+      return swearwords;
+    }
+
+    public static object get_strikes_from_user(UInt64 user_id)
+    {
+      string query = "SELECT strikes " +
+        "FROM swearword_strikes " +
+        $"WHERE user_id = {user_id}";
+      MySqlCommand cmd = new MySqlCommand(query, conn);
+      conn.Open();
+      object strikes = cmd.ExecuteScalar();
+      conn.Close();
+      return strikes;
     }
 
     public static void defaultSetup()
