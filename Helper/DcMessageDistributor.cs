@@ -4,6 +4,8 @@ using DSharpPlus.EventArgs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DiscordBot.Rolemanager;
+using DSharpPlus;
 
 namespace DiscordBot.Helper
 {
