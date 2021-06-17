@@ -17,21 +17,10 @@ namespace DiscordBot
   {
     static void Main(string[] args)
     {
-      //Database.Init_Database();
-      //Database.defaultSetup();
-      //var tmp = Database.runSQL("SELECT * FROM CustomRoles");
-
-      //foreach (var i in tmp)
-      //{
-      //  foreach (var j in i)
-      //  {
-      //    Console.WriteLine(j);
-      //  }
-      //}
-
+      Database.Init_Database();
+      Database.defaultSetup();
 
       MainAsync().GetAwaiter().GetResult();
-
     }
 
     static async Task MainAsync()
@@ -52,7 +41,7 @@ namespace DiscordBot
         StringPrefixes = new[] { "!" }
       });
       commands.RegisterCommands<LavaLinkCommands>();
-      //commands.RegisterCommands<CustomCommands>();
+      commands.RegisterCommands<CustomCommands>();
 
       discord.MessageCreated += async (s, e) =>
         {

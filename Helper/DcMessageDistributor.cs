@@ -12,29 +12,16 @@ namespace DiscordBot.Helper
     //Methode die eine Nachricht passend weiterleitet
     public string GetMessage(MessageCreateEventArgs message)
     {
-      // CustomCommand customCommand = new CustomCommand();
       string response = String.Empty;
 
       // Zuweisung für CustomCommands
       #region CustomCommands
       CustomCommands customCommand = new CustomCommands();
 
-      if (message.Message.Content.ToLower().StartsWith("!addcustomcommand"))
+      if (message.Message.Content.ToLower().StartsWith("!"))
       {
-        //response = customCommand.AddDatabaseEntry(message);
+        response = customCommand.RespondToCommand(message);
       }
-      else if (message.Message.Content.ToLower().StartsWith("!updatecustomcommand"))
-      {
-        response = customCommand.UpdateDatabaseEntry(message);
-      }
-      else if (message.Message.Content.ToLower().StartsWith("!deletecustomcommand"))
-      {
-        response = customCommand.DeleteDatabaseEntry(message);
-      }
-      //else if(message.Message.Content.ToLower().StartsWith("!"))
-      //{
-      //  response = customCommand.RespondToCommand(message);
-      //}
       #endregion
 
       return response;
