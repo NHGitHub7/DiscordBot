@@ -60,11 +60,6 @@ namespace DiscordBot
       {
         StringPrefixes = new[] { "!" }
       });
-
-      var commands = discord.UseCommandsNext(new CommandsNextConfiguration()
-      {
-        StringPrefixes = new[] { "!" }
-      });
       commands.RegisterCommands<LavaLinkCommands>();
       commands.RegisterCommands<CustomCommands>();
       commands.RegisterCommands<RoleCommands>();
