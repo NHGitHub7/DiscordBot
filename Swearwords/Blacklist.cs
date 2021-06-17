@@ -65,7 +65,7 @@ namespace DiscordBot.Swearwords
       }
       else
       {
-        return (int) strikes;
+        return (int)strikes;
       }
     }
 
