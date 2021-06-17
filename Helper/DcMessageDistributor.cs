@@ -21,7 +21,7 @@ namespace DiscordBot.Helper
 
       if (message.Message.Content.ToLower().StartsWith("!addcustomcommand"))
       {
-        response = customCommand.AddDatabaseEntry(message);
+        //response = customCommand.AddDatabaseEntry(message);
       }
       else if (message.Message.Content.ToLower().StartsWith("!updatecustomcommand"))
       {
@@ -31,10 +31,10 @@ namespace DiscordBot.Helper
       {
         response = customCommand.DeleteDatabaseEntry(message);
       }
-      else if(message.Message.Content.ToLower().StartsWith("!"))
-      {
-        response = customCommand.RespondToCommand(message);
-      }
+      //else if(message.Message.Content.ToLower().StartsWith("!"))
+      //{
+      //  response = customCommand.RespondToCommand(message);
+      //}
       #endregion
 
       return response;

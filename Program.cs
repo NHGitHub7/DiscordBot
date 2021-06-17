@@ -7,6 +7,9 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
+using DSharpPlus.Lavalink;
+using DSharpPlus.Net;
+using DiscordBot.MusicBot;
 
 namespace DiscordBot
 {
@@ -14,17 +17,17 @@ namespace DiscordBot
   {
     static void Main(string[] args)
     {
-      Database.Init_Database();
-      Database.defaultSetup();
-      var tmp = Database.runSQL("SELECT * FROM CustomRoles");
+      //Database.Init_Database();
+      //Database.defaultSetup();
+      //var tmp = Database.runSQL("SELECT * FROM CustomRoles");
 
-      foreach (var i in tmp)
-      {
-        foreach (var j in i)
-        {
-          Console.WriteLine(j);
-        }
-      }
+      //foreach (var i in tmp)
+      //{
+      //  foreach (var j in i)
+      //  {
+      //    Console.WriteLine(j);
+      //  }
+      //}
 
 
       MainAsync().GetAwaiter().GetResult();
@@ -44,13 +47,37 @@ namespace DiscordBot
         TokenType = TokenType.Bot
       });
 
+      var commands = discord.UseCommandsNext(new CommandsNextConfiguration()
+      {
+        StringPrefixes = new[] { "!" }
+      });
+      commands.RegisterCommands<LavaLinkCommands>();
+      //commands.RegisterCommands<CustomCommands>();
+
       discord.MessageCreated += async (s, e) =>
         {
-            response = messageDistributor.GetMessage(e).ToString();
-            await e.Message.RespondAsync(response);
+          response = messageDistributor.GetMessage(e).ToString();
+          await e.Message.RespondAsync(response);
         };
 
+      var endpoint = new ConnectionEndpoint
+      {
+        Hostname = "127.0.0.1",
+        Port = 2333
+      };
+
+      var lavalinkConfig = new LavalinkConfiguration
+      {
+        Password = "youshallnotpass",
+        RestEndpoint = endpoint,
+        SocketEndpoint = endpoint
+      };
+
+      var lavalink = discord.UseLavalink();
+
       await discord.ConnectAsync();
+      await lavalink.ConnectAsync(lavalinkConfig);
+
       await Task.Delay(-1);
     }
   }
