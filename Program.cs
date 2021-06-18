@@ -61,6 +61,7 @@ namespace DiscordBot
         StringPrefixes = new[] { "!" }
       });
       commands.RegisterCommands<RoleCommands>();
+      commands.RegisterCommands<Swearwords.Commands>();
 
       RoleEventReactions roleEvents = new RoleEventReactions();
 
@@ -75,9 +76,9 @@ namespace DiscordBot
             await roleEvents.ReactOnUserMessage(e, discord);
             await e.Message.RespondAsync("You will receive your Role.");
           }
-          else if (e.Author.IsBot == false && Blacklist.is_swearword(e.Message.Content.ToLower()))
+          else if (e.Author.IsBot == false && Blacklist.is_swearword(e.Message.Content.ToLower(), e))
           {
-            await Blacklist.strike_user(e.Message, e.Author.Id, e.Guild, e.Channel, e.Author.Mention);
+            await Blacklist.strike_user(e);
           }
         };
       /*

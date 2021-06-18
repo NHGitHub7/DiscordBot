@@ -112,7 +112,18 @@ namespace DiscordBot.DB
     }
     static bool tablesExist()
     {
-      conn.Open();
+      try
+      {
+        conn.Open();
+      }
+      catch (MySqlException e)
+      {
+        Console.WriteLine("Check if your DB is available\n" +
+          "Is your Docker Container running ?\n" +
+          "Or Are the Values in your config.json correct ?");
+        Console.WriteLine($"\n\nError: {e}");
+        System.Environment.Exit(1);
+      }
 
       string query =
         "SELECT CREATE_TIME " +

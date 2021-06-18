@@ -40,10 +40,6 @@ namespace DiscordBot.Helper
       {
         response = customCommand.RespondToCommand(message);
       }
-      else if (Blacklist.is_swearword(msg))
-      {
-        response = "You wrote something bad!";
-      }
       #endregion
 
       return response;

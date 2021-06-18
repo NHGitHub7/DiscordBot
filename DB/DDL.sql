@@ -32,6 +32,7 @@ DROP TABLE IF EXISTS swearwords;
 CREATE TABLE swearwords(
   swearwords_id INTEGER AUTO_INCREMENT,
   word VARCHAR(255),
+  UNIQUE(word),
   PRIMARY KEY (swearwords_id)
 );
 
