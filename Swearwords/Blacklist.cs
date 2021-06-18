@@ -21,7 +21,7 @@ namespace DiscordBot.Swearwords
     public static bool is_swearword(string word, MessageCreateEventArgs e)
     {
       List<string> swearwords;
-      if (counter >= 1000)
+      if (counter >= 50)
       {
         swearwords = Database.get_swearwords();
         swearwords_cache = swearwords;

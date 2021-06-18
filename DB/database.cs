@@ -118,10 +118,10 @@ namespace DiscordBot.DB
       }
       catch (MySqlException e)
       {
+        Console.WriteLine($"Error: {e}\n\n");
         Console.WriteLine("Check if your DB is available\n" +
           "Is your Docker Container running ?\n" +
           "Or Are the Values in your config.json correct ?");
-        Console.WriteLine($"\n\nError: {e}");
         System.Environment.Exit(1);
       }
 
