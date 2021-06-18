@@ -43,7 +43,7 @@ VALUES  ("scheisse"),
 
 DROP TABLE IF EXISTS swearword_strikes;
 CREATE TABLE swearword_strikes(
-  user_id BIGINT UNSIGNED AUTO_INCREMENT,
+  user_id BIGINT UNSIGNED,
   strikes INTEGER,
   PRIMARY KEY(user_id)
 );
