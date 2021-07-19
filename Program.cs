@@ -1,5 +1,6 @@
 using DiscordBot.Helper;
 using DiscordBot.DB;
+using DiscordBot.Swearwords;
 using DSharpPlus;
 using System.Threading.Tasks;
 using System.Threading;
@@ -14,6 +15,7 @@ using System.Threading.Channels;
 using Newtonsoft.Json.Linq;
 using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Converters;
 namespace DiscordBot
 {
   class Program
@@ -29,6 +31,8 @@ namespace DiscordBot
       {
         Database.Init_Database();
         Database.defaultSetup();
+        Blacklist.init();
+
         MainAsync().GetAwaiter().GetResult();
       }
       else
@@ -57,6 +61,7 @@ namespace DiscordBot
         StringPrefixes = new[] { "!" }
       });
       commands.RegisterCommands<RoleCommands>();
+      commands.RegisterCommands<Swearwords.Commands>();
 
       RoleEventReactions roleEvents = new RoleEventReactions();
 
@@ -71,11 +76,13 @@ namespace DiscordBot
             await roleEvents.ReactOnUserMessage(e, discord);
             await e.Message.RespondAsync("You will receive your Role.");
           }
-          else
+          else if (e.Author.IsBot == false && Blacklist.is_swearword(e.Message.Content.ToLower(), e))
           {
+            await Blacklist.strike_user(e);
+          } else {
             response = messageDistributor.GetMessage(e).ToString();
             await e.Message.RespondAsync(response);
-          }
+         }
         };
       /*
        * Event that reacts on User Join in your Guild.
