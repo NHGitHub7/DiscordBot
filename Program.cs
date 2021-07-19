@@ -57,6 +57,7 @@ namespace DiscordBot
         TokenType = TokenType.Bot,
         Intents = DiscordIntents.All
       });
+      
       /*
        * Command Prefix you need, to use the Command.
        */
@@ -71,6 +72,7 @@ namespace DiscordBot
 
       RoleEventReactions roleEvents = new RoleEventReactions();
 
+      
       discord.MessageCreated += async (s, e) =>
         {
           /*
@@ -80,12 +82,12 @@ namespace DiscordBot
           if (e.Channel.IsPrivate == true && e.Author.IsBot == false)
           {
             await roleEvents.ReactOnUserMessage(e, discord);
-            await e.Message.RespondAsync("You will receive your Role.");
           }
           else if (e.Author.IsBot == false && Blacklist.is_swearword(e.Message.Content.ToLower(), e))
           {
             await Blacklist.strike_user(e);
           }
+          
           /*else
           {
             response = messageDistributor.GetMessage(e).ToString();
@@ -100,6 +102,10 @@ namespace DiscordBot
         await roleEvents.ReactOnUserJoin(s, e);
       };
 
+      discord.GuildAvailable += async (s, e) =>
+      {
+        await roleEvents.SetRolesToDB(discord);
+      };
       /*var endpoint = new ConnectionEndpoint
       {
         Hostname = "127.0.0.1",
@@ -116,13 +122,13 @@ namespace DiscordBot
       //var lavalink = discord.UseLavalink();
       */
       await discord.ConnectAsync();
-      //await lavalink.ConnectAsync(lavalinkConfig);
 
-      await discord.ConnectAsync();
+      //await lavalink.ConnectAsync(lavalinkConfig);
 
 
       await Task.Delay(-1);
 
+      
     }
   }
 }
