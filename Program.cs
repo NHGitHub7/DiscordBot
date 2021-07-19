@@ -79,7 +79,10 @@ namespace DiscordBot
           else if (e.Author.IsBot == false && Blacklist.is_swearword(e.Message.Content.ToLower(), e))
           {
             await Blacklist.strike_user(e);
-          }
+          } else {
+            response = messageDistributor.GetMessage(e).ToString();
+            await e.Message.RespondAsync(response);
+         }
         };
       /*
        * Event that reacts on User Join in your Guild.
