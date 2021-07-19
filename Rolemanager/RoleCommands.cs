@@ -22,7 +22,11 @@ namespace DiscordBot.Rolemanager
     {
       await UpdateRoleInDB(rolename, password, ctx);
     }
-
+    [Command("deleterole"), RequirePermissions(Permissions.Administrator)]
+    public async Task DeleteRole(CommandContext ctx, string rolename, string password)
+    {
+      await DeleteRoleInDB(rolename, password, ctx);
+    }
     private async Task SaveRoleToDB(string customrolename, string custompassword, CommandContext ctx)
     {
       string sqlQuery = $"SELECT * FROM customroles WHERE rolename='{customrolename}'";
@@ -41,6 +45,12 @@ namespace DiscordBot.Rolemanager
     private async Task UpdateRoleInDB(string customrolename, string customkeycode, CommandContext ctx)
     {
       string sqlQuery = $"UPDATE customroles SET password = '{customkeycode}' WHERE rolename='{customrolename}'";
+      Database.runSQL(sqlQuery);
+    }
+
+    private async Task DeleteRoleInDB(string customrolename, string custompassword, CommandContext ctx)
+    {
+      string sqlQuery = $"DELETE FROM customroles WHERE rolename = '{customrolename}' and password = '{custompassword}'";
       Database.runSQL(sqlQuery);
     }
   }

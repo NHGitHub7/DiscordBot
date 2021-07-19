@@ -80,11 +80,11 @@ namespace DiscordBot
           {
             await Blacklist.strike_user(e);
           }
-          else
+          /*else
           {
             response = messageDistributor.GetMessage(e).ToString();
             await e.Message.RespondAsync(response);
-          }
+          }*/
         };
       /*
        * Event that reacts on User Join in your Guild.
@@ -94,7 +94,26 @@ namespace DiscordBot
         await roleEvents.ReactOnUserJoin(s, e);
       };
 
+
+      /*var endpoint = new ConnectionEndpoint
+      {
+        Hostname = "127.0.0.1",
+        Port = 2333
+      };
+
+      var lavalinkConfig = new LavalinkConfiguration
+      {
+        Password = "youshallnotpass",
+        RestEndpoint = endpoint,
+        SocketEndpoint = endpoint
+      };
+
+      //var lavalink = discord.UseLavalink();
+      */
       await discord.ConnectAsync();
+      //await lavalink.ConnectAsync(lavalinkConfig);
+
+
       await Task.Delay(-1);
 
     }
