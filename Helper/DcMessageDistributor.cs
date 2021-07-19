@@ -15,7 +15,6 @@ namespace DiscordBot.Helper
     //Methode die eine Nachricht passend weiterleitet
     public string GetMessage(MessageCreateEventArgs message)
     {
-      // CustomCommand customCommand = new CustomCommand();
       string response = String.Empty;
       Blacklist bl = new Blacklist();
 
@@ -24,19 +23,7 @@ namespace DiscordBot.Helper
       CustomCommands customCommand = new CustomCommands();
       string msg = message.Message.Content.ToLower();
 
-      if (msg.StartsWith("!addcustomcommand"))
-      {
-        response = customCommand.AddDatabaseEntry(message);
-      }
-      else if (msg.StartsWith("!updatecustomcommand"))
-      {
-        response = customCommand.UpdateDatabaseEntry(message);
-      }
-      else if (msg.StartsWith("!deletecustomcommand"))
-      {
-        response = customCommand.DeleteDatabaseEntry(message);
-      }
-      else if (msg.StartsWith("!"))
+      if (message.Message.Content.ToLower().StartsWith("!"))
       {
         response = customCommand.RespondToCommand(message);
       }

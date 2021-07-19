@@ -14,6 +14,10 @@ using System.Collections.Specialized;
 using System.Threading.Channels;
 using Newtonsoft.Json.Linq;
 using DSharpPlus.Entities;
+using DSharpPlus.Lavalink;
+using DSharpPlus.Net;
+using DiscordBot.MusicBot;
+
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Converters;
 namespace DiscordBot
@@ -60,6 +64,8 @@ namespace DiscordBot
       {
         StringPrefixes = new[] { "!" }
       });
+      commands.RegisterCommands<LavaLinkCommands>();
+      commands.RegisterCommands<CustomCommands>();
       commands.RegisterCommands<RoleCommands>();
       commands.RegisterCommands<Swearwords.Commands>();
 
@@ -94,7 +100,6 @@ namespace DiscordBot
         await roleEvents.ReactOnUserJoin(s, e);
       };
 
-
       /*var endpoint = new ConnectionEndpoint
       {
         Hostname = "127.0.0.1",
@@ -112,6 +117,8 @@ namespace DiscordBot
       */
       await discord.ConnectAsync();
       //await lavalink.ConnectAsync(lavalinkConfig);
+
+      await discord.ConnectAsync();
 
 
       await Task.Delay(-1);
