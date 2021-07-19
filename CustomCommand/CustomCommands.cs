@@ -113,30 +113,37 @@ namespace DiscordBot
 
         var dbEntry = Database.runSQL($"Select * FROM CustomCommands WHERE CommandName = '{title}' LIMIT 1");
 
-        ccTable.CustomCommandId = Convert.ToInt32(dbEntry[0].GetValue(0));
-        ccTable.CommandName = Convert.ToString(dbEntry[0].GetValue(1));
-        ccTable.CommandResponse = Convert.ToString(dbEntry[0].GetValue(2));
-        ccTable.DateCreated = Convert.ToDateTime(dbEntry[0].GetValue(3));
-        ccTable.CreatedBy = Convert.ToString(dbEntry[0].GetValue(4));
-
-        // Problem with DBNull
-        if (dbEntry[0].GetValue(5) == System.DBNull.Value)
+        if (dbEntry.Count != 0)
         {
-          ccTable.ModifiedBy = "Keine Änderungen";
+          ccTable.CustomCommandId = Convert.ToInt32(dbEntry[0].GetValue(0));
+          ccTable.CommandName = Convert.ToString(dbEntry[0].GetValue(1));
+          ccTable.CommandResponse = Convert.ToString(dbEntry[0].GetValue(2));
+          ccTable.DateCreated = Convert.ToDateTime(dbEntry[0].GetValue(3));
+          ccTable.CreatedBy = Convert.ToString(dbEntry[0].GetValue(4));
+
+          // Problem with DBNull
+          if (dbEntry[0].GetValue(5) == System.DBNull.Value)
+          {
+            ccTable.ModifiedBy = "Keine Änderungen";
+          }
+          else
+          {
+            ccTable.ModifiedBy = Convert.ToString(dbEntry[0].GetValue(5));
+          }
+
+          //Problem with DateTime = Empty Not null/MinValue
+          if (dbEntry[0].GetValue(6) == System.DBNull.Value)
+          {
+            ccTable.DateModified = DateTime.MinValue;
+          }
+          else
+          {
+            ccTable.DateModified = Convert.ToDateTime(dbEntry[0].GetValue(6));
+          }
         }
         else
         {
-          ccTable.ModifiedBy = Convert.ToString(dbEntry[0].GetValue(5));
-        }
-
-        //Problem with DateTime = Empty Not null/MinValue
-        if (dbEntry[0].GetValue(6) == System.DBNull.Value)
-        {
-          ccTable.DateModified = DateTime.MinValue;
-        }
-        else
-        {
-          ccTable.DateModified = Convert.ToDateTime(dbEntry[0].GetValue(6));
+          ccTable.CommandResponse = "Keine Werte zum Ausgeben gefunden. Eventuell einen falschen Command ansgesprochen?";
         }
 
         return ccTable.CommandResponse;
