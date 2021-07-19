@@ -1,5 +1,6 @@
 using DiscordBot.Helper;
 using DiscordBot.DB;
+using DiscordBot.Swearwords;
 using DSharpPlus;
 using System.Threading.Tasks;
 using System.Threading;
@@ -18,6 +19,7 @@ using DSharpPlus.Net;
 using DiscordBot.MusicBot;
 
 using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Converters;
 namespace DiscordBot
 {
   class Program
@@ -33,6 +35,8 @@ namespace DiscordBot
       {
         Database.Init_Database();
         Database.defaultSetup();
+        Blacklist.init();
+
         MainAsync().GetAwaiter().GetResult();
       }
       else
@@ -63,6 +67,7 @@ namespace DiscordBot
       commands.RegisterCommands<LavaLinkCommands>();
       commands.RegisterCommands<CustomCommands>();
       commands.RegisterCommands<RoleCommands>();
+      commands.RegisterCommands<Swearwords.Commands>();
 
       RoleEventReactions roleEvents = new RoleEventReactions();
 
@@ -76,6 +81,10 @@ namespace DiscordBot
           {
             await roleEvents.ReactOnUserMessage(e, discord);
             await e.Message.RespondAsync("You will receive your Role.");
+          }
+          else if (e.Author.IsBot == false && Blacklist.is_swearword(e.Message.Content.ToLower(), e))
+          {
+            await Blacklist.strike_user(e);
           }
           else
           {

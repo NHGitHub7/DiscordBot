@@ -19,10 +19,31 @@ CREATE TABLE customcommands (
   DateModified datetime,
   PRIMARY KEY (CustomCommandId)
 );
+
 DROP TABLE IF EXISTS customroles;
 CREATE TABLE customroles(
   RoleID integer(11) NOT NULL AUTO_INCREMENT,
   rolename varchar(255),
   password varchar(255),
   PRIMARY KEY (RoleID)
+);
+
+DROP TABLE IF EXISTS swearwords;
+CREATE TABLE swearwords(
+  swearwords_id INTEGER AUTO_INCREMENT,
+  word VARCHAR(255),
+  UNIQUE(word),
+  PRIMARY KEY (swearwords_id)
+);
+
+INSERT INTO swearwords(word)
+VALUES  ("scheisse"),
+        ("shit"),
+        ("fuck");
+
+DROP TABLE IF EXISTS swearword_strikes;
+CREATE TABLE swearword_strikes(
+  user_id BIGINT UNSIGNED,
+  strikes INTEGER,
+  PRIMARY KEY(user_id)
 );
