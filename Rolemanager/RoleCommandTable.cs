@@ -10,5 +10,8 @@ namespace DiscordBot.Rolemanager
     public DiscordChannel[] arrayChannels { get; set; }
     public DiscordGuild[] arrayGuilds { get; set; }
     public DiscordRole[] arrayRoles { get; set; }
+
+    //public DiscordChannel[] arrayChannels { get; set; }
+    //public DiscordMember[] arrayMembers { get; set; }
   }
 }
