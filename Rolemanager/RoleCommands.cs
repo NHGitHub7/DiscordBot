@@ -19,12 +19,12 @@ namespace DiscordBot.Rolemanager
       await ListAllCustomRolesFromDB(ctx);
     }
     
-    [Command("createrolewithpw"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !createrolewithpw {rolename} {password} {active default: true} Info: Saves new Role with a password to your DB.")]
+    [Command("createrole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !createrolewithpw {rolename} {password} {active default: true} Info: Saves new Role with a password to your DB.")]
     public async Task AddKeyCodeToRole(CommandContext ctx, string rolename, string password, bool active = true)
     {
        await SaveRoleToDB(rolename, password, active,  ctx);
     }
-    [Command("updaterolewithpw"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !updaterolewithpw {rolename} {password} {active default: true} Info: Updates Password of existing Role in your DB.")]
+    [Command("updaterole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !updaterolewithpw {rolename} {password} {active default: true} Info: Updates Password of existing Role in your DB.")]
     public async Task UpdateKeyCodeFromRole(CommandContext ctx, string rolename, string password, bool active = true)
     {
       await UpdateRoleInDB(rolename, password, active, ctx);
