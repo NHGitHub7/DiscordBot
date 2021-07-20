@@ -38,15 +38,12 @@ namespace DiscordBot
     }
 
     //Methode zum Hinzufügen eines TextCommands
-    [Command("addcustomcommand")]
-    public async Task AddDatabaseEntry(CommandContext ctx, MessageCreateEventArgs message)
+    [Command("ccAdd")]
+    public async Task AddDatabaseEntry(CommandContext ctx, string commandName, [RemainingText] string commandResponse)
     {
       try
       {
-        commandName = message.Message.Content.Split(" ")[1].ToString();
-        commandResponse = message.Message.Content.Split(new[] { ' ' }, 3)[2].ToString();
-
-        user = message.Message.Author.ToString();
+        string user = ctx.User.Id.ToString();
 
         addToDb = $"INSERT INTO customcommands(CommandName, CommandResponse, DateCreated, CreatedBy) VALUES('{commandName}', '{commandResponse}', NOW(), '{user}')";
 
@@ -61,15 +58,12 @@ namespace DiscordBot
     }
 
     //Methode zum Ändern des CommandResponse
-    [Command("updatecustomcommand")]
-    public async Task UpdateDatabaseEntry(CommandContext ctx, MessageCreateEventArgs message)
+    [Command("ccUpdate")]
+    public async Task UpdateDatabaseEntry(CommandContext ctx, string commandName, [RemainingText] string commandResponse)
     {
       try
       {
-        commandName = message.Message.Content.Split(" ")[1].ToString();
-        commandResponse = message.Message.Content.Split(new[] { ' ' }, 3)[2].ToString();
-
-        user = message.Message.Author.ToString();
+        string user = ctx.User.Id.ToString();
 
         addToDb = $"UPDATE customcommands SET CommandName = '{commandName}', CommandResponse = '{commandResponse}', DateModified = Now(), ModifiedBy = '{user}' WHERE CommandName = '{commandName}'";
 
@@ -84,13 +78,11 @@ namespace DiscordBot
     }
 
     //Methode zum Löschen eines Commands aufgrund es Titels
-    [Command("deletecustomcommand")]
-    public async Task DeleteDatabaseEntry(CommandContext ctx, MessageCreateEventArgs message)
+    [Command("ccDelete")]
+    public async Task DeleteDatabaseEntry(CommandContext ctx, string commandName)
     {
       try
       {
-        commandName = message.Message.Content.Split(" ")[1].ToString();
-
         addToDb = $"DELETE FROM customcommands WHERE CommandName = '{commandName}'";
 
         Database.runSQL(addToDb);
@@ -104,14 +96,14 @@ namespace DiscordBot
     }
 
     //Methode um auf einen Command zu reagieren
-    public string RespondToCommand(MessageCreateEventArgs message)
+    [Command("ccUse")]
+    public async Task RespondToCommand(CommandContext ctx, string commandName)
     {
       try
       {
         CustomCommandTable ccTable = new CustomCommandTable();
-        string title = message.Message.Content.Split("!")[1];
 
-        var dbEntry = Database.runSQL($"Select * FROM CustomCommands WHERE CommandName = '{title}' LIMIT 1");
+        var dbEntry = Database.runSQL($"Select * FROM CustomCommands WHERE CommandName = '{commandName}' LIMIT 1");
 
         if (dbEntry.Count != 0)
         {
@@ -143,16 +135,15 @@ namespace DiscordBot
         }
         else
         {
-          ccTable.CommandResponse = "Keine Werte zum Ausgeben gefunden. Eventuell einen falschen Command ansgesprochen?";
+          ccTable.CommandResponse = "Keine Werte zum Ausgeben gefunden. Eventuell einen falschen Command angesprochen?";
         }
 
-        return ccTable.CommandResponse;
+        await ctx.RespondAsync(ccTable.CommandResponse);
       }
       catch (Exception ex)
       {
-        return ex.Message;
+        await ctx.RespondAsync(ex.Message);
       }
     }
-
   }
 }

@@ -31,23 +31,22 @@ namespace DiscordBot
       Model.OAuthorization oauth_config = configHelper.GetOAuthValue();
       Model.DB_Access db_config = configHelper.GetDBAccessValues();
 
-      if (typeof(object).IsInstanceOfType(version_config) && typeof(object).IsInstanceOfType(oauth_config) && typeof(object).IsInstanceOfType(db_config))
-      {
+      //if (typeof(object).IsInstanceOfType(version_config) && typeof(object).IsInstanceOfType(oauth_config) && typeof(object).IsInstanceOfType(db_config))
+      //{
         Database.Init_Database();
         Database.defaultSetup();
         Blacklist.init();
 
         MainAsync().GetAwaiter().GetResult();
-      }
-      else
-      {
-        Console.WriteLine("Check your config, maybe something is missing!");
-      }
+      //}
+      //else
+      //{
+      //  Console.WriteLine("Check your config, maybe something is missing!");
+      //}
     }
     static async Task MainAsync()
     {
       ConfigurationHelper configurationHelper = new ConfigurationHelper();
-      DcMessageDistributor messageDistributor = new DcMessageDistributor();
 
       string response = String.Empty;
 
@@ -82,14 +81,9 @@ namespace DiscordBot
             await roleEvents.ReactOnUserMessage(e, discord);
             await e.Message.RespondAsync("You will receive your Role.");
           }
-          else if (e.Author.IsBot == false && Blacklist.is_swearword(e.Message.Content.ToLower(), e))
+          else if ((e.Author.IsBot == false) && (Blacklist.is_swearword(e.Message.Content.ToLower(), e)))
           {
             await Blacklist.strike_user(e);
-          }
-          else
-          {
-            response = messageDistributor.GetMessage(e).ToString();
-            await e.Message.RespondAsync(response);
           }
         };
       /*
