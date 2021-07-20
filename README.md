@@ -14,12 +14,12 @@ Die Services bleiben im Terminal offen solange, bis man sie schließt (`Ctrl+C`)
 ### Accounts
 
 Im Browser sich bei [Discord](https://discord.com/app) mit:
-> Nutzername: ""
-> Passwort: ""
+> Nutzername: 3qdpacv3p@relay.firefox.com
+> Passwort: yPz6LA*k#*Fpr8YD73#t
 
-Im Incognito-Modus, einem Container oder einem anderen Browser ebenfalls bei [Discord](https://discord.com/app) anmelden mit:
-> Nutzername: ""
-> Passwort: ""
+Im Incognito-Modus, einem [Container](https://addons.mozilla.org/de/firefox/addon/multi-account-containers/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search) oder einem anderen Browser ebenfalls bei [Discord](https://discord.com/app) anmelden mit:
+> Nutzername: gw9tgqxwn@relay.firefox.com
+> Passwort: rd6H#R*&!$LTUZr&DHb5
 
 ### Guild (Server) & Bot
 
