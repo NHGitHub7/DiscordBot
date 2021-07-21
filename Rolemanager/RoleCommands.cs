@@ -13,7 +13,7 @@ namespace DiscordBot.Rolemanager
 {
   public class RoleCommands : BaseCommandModule
   {
-    [Command("listroles"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !listroles Info: List of all current Roles + passwords and if they are active.")]
+    [Command("listroles"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !listroles List of all current Roles + passwords and if they are active.")]
     public async Task ListAllCustomRoles(CommandContext ctx)
     {
       await ListAllCustomRolesFromDB(ctx);
