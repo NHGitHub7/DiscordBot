@@ -19,22 +19,22 @@ namespace DiscordBot.Rolemanager
       await ListAllCustomRolesFromDB(ctx);
     }
     
-    [Command("createrole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !createrolewithpw {rolename} {password} {active default: true} Info: Saves new Role with a password to your DB.")]
+    [Command("createrole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !createrole Saves new Role with a password to your DB. Default value for active = true")]
     public async Task AddKeyCodeToRole(CommandContext ctx, string rolename, string password, bool active = true)
     {
        await SaveRoleToDB(rolename, password, active,  ctx);
     }
-    [Command("updaterole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !updaterolewithpw {rolename} {password} {active default: true} Info: Updates Password of existing Role in your DB.")]
+    [Command("updaterole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !updaterole Updates Password of existing Role in your DB. Default value for active = true")]
     public async Task UpdateKeyCodeFromRole(CommandContext ctx, string rolename, string password, bool active = true)
     {
       await UpdateRoleInDB(rolename, password, active, ctx);
     }
-    [Command("deleterole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !deleterole {rolename} {password} Info: It deletes a custom Role in your DB with its password.")]
+    [Command("deleterole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !deleterole It deletes a custom Role in your DB with its password.")]
     public async Task DeleteRole(CommandContext ctx, string rolename, string password)
     {
         await DeleteRoleInDB(rolename, password, ctx);
     }
-    [Command("setactive"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !setactive {rolename} {active:true/false} Info: Activate a Role or deactivate, if its active the password can be used for new Members else it can't.")]
+    [Command("setactive"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !setactive Activate a Role or deactivate, if its active the password can be used for new Members else it can't. Default value for active = true")]
     public async Task ActivateRoleOrDeactivate(CommandContext ctx, string rolename, bool active = true)
     {
       await ActivateRoleOrDeactivateInDB(rolename, active, ctx);
@@ -57,7 +57,7 @@ namespace DiscordBot.Rolemanager
       var returnsql = Database.runSQL(sqlQuery);
       if (returnsql.Count != 0)
       {
-        await ctx.RespondAsync("This Role already exists with a Password. If you want to update the Password use !updaterolewithpw {rolename} {password}");
+        await ctx.RespondAsync("This Role already exists with a Password. If you want to update the Password use !updaterole {rolename} {password}");
       }
       else
       {
@@ -77,7 +77,7 @@ namespace DiscordBot.Rolemanager
       }
       else if (exists == false)
       {
-        await ctx.RespondAsync("This Role does not exist. Maybe you want to create the Role first with !createrolewithpw {rolename} {password} {active:true/false} ");
+        await ctx.RespondAsync("This Role does not exist. Maybe you want to create the Role first with !createrole {rolename} {password} {active:true/false} ");
       }
     }
 
