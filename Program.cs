@@ -38,12 +38,12 @@ namespace DiscordBot
         Blacklist.init();
 
         MainAsync().GetAwaiter().GetResult();
-    }
+      }
       else
       {
         Console.WriteLine("Check your config, maybe something is missing!");
       }
-}
+    }
     static async Task MainAsync()
     {
       ConfigurationHelper configurationHelper = new ConfigurationHelper();
