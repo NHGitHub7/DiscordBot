@@ -151,9 +151,15 @@ namespace DiscordBot.Rolemanager
         mcTable.arrayMembers = new List<DiscordMember>(arrayChannel.Users).ToArray();
         foreach (var arrayMember in mcTable.arrayMembers)
         {
-          if (arrayMember.Id != ctx.Member.Id)
+          if (arrayMember.Id != ctx.Member.Id && arrayMember.IsMuted == false)
           {
             await arrayMember.SetMuteAsync(true);
+            await ctx.RespondAsync("Silence!");
+          }
+          else if (arrayMember.IsMuted)
+          {
+            await arrayMember.SetMuteAsync(false);
+            await ctx.RespondAsync("You now can speak again!!111");
           }
           else
           {
