@@ -12,7 +12,7 @@ namespace DiscordBot.Swearwords
 {
   public class Commands : BaseCommandModule
   {
-    [Command("cussAdd"), RequirePermissions(Permissions.Administrator)]
+    [Command("cussAdd"), RequirePermissions(Permissions.Administrator), Description("Adds the provided word to your registered cusses")]
     public async Task add_cuss_to_db(CommandContext ctx, string cuss_input)
     {
       string cuss_clean = cuss_input.ToLower();
@@ -30,16 +30,16 @@ namespace DiscordBot.Swearwords
       }
     }
 
-    [Command("cussRm"), RequirePermissions(Permissions.Administrator)]
-    public async Task rm_cuss_from_db(CommandContext ctx, string cuss)
+    [Command("cussRm"), RequirePermissions(Permissions.Administrator), Description("Removes the provided word from your registered cusses")]
+    public async Task rm_cuss_from_db(CommandContext ctx, string word)
     {
       string query = "DELETE FROM swearwords " +
-        $"WHERE word LIKE '{cuss}'";
+        $"WHERE word LIKE '{word}'";
       Database.runScalar(query);
       await ctx.RespondAsync("Cuss removed;");
     }
 
-    [Command("cussList")]
+    [Command("cussList"), Description("Lists all registered cusses")]
     public async Task list_cusses_from_db(CommandContext ctx)
     {
       List<string> cuss_list = Database.get_swearwords();
@@ -49,17 +49,6 @@ namespace DiscordBot.Swearwords
         msg += $"`{i}`\n";
       }
       await ctx.RespondAsync(msg);
-    }
-
-    [Command("cussHelp")]
-    public async Task print_cuss_help(CommandContext ctx)
-    {
-      string help = "" +
-        "**!cussHelp** Shows this message\n" +
-        "**!cussList** Lists all registered cusses\n" +
-        "**!cussAdd <word>** Adds the provided word to your registered cusses\n" +
-        "**!cussRm <word>** Removes the provided word from your registered cusses\n";
-      await ctx.RespondAsync(help);
     }
 
     static bool cuss_exists(string cuss)
