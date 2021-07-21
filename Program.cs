@@ -47,7 +47,6 @@ namespace DiscordBot
     static async Task MainAsync()
     {
       ConfigurationHelper configurationHelper = new ConfigurationHelper();
-      DcMessageDistributor messageDistributor = new DcMessageDistributor();
 
       string response = String.Empty;
 
@@ -82,14 +81,9 @@ namespace DiscordBot
             await roleEvents.ReactOnUserMessage(e, discord);
             await e.Message.RespondAsync("You will receive your Role.");
           }
-          else if (e.Author.IsBot == false && Blacklist.is_swearword(e.Message.Content.ToLower(), e))
+          else if ((e.Author.IsBot == false) && (Blacklist.is_swearword(e.Message.Content.ToLower(), e)))
           {
             await Blacklist.strike_user(e);
-          }
-          else
-          {
-            response = messageDistributor.GetMessage(e).ToString();
-            await e.Message.RespondAsync(response);
           }
         };
       /*
