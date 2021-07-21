@@ -47,7 +47,6 @@ namespace DiscordBot
     static async Task MainAsync()
     {
       ConfigurationHelper configurationHelper = new ConfigurationHelper();
-      DcMessageDistributor messageDistributor = new DcMessageDistributor();
 
       string response = String.Empty;
 
@@ -83,16 +82,10 @@ namespace DiscordBot
           {
             await roleEvents.ReactOnUserMessage(e, discord);
           }
-          else if (e.Author.IsBot == false && Blacklist.is_swearword(e.Message.Content.ToLower(), e))
+          else if ((e.Author.IsBot == false) && (Blacklist.is_swearword(e.Message.Content.ToLower(), e)))
           {
             await Blacklist.strike_user(e);
           }
-          
-          /*else
-          {
-            response = messageDistributor.GetMessage(e).ToString();
-            await e.Message.RespondAsync(response);
-          }*/
         };
       /*
        * Event that reacts on User Join in your Guild.
@@ -106,7 +99,7 @@ namespace DiscordBot
       {
         await roleEvents.SetRolesToDB(discord);
       };
-      /*var endpoint = new ConnectionEndpoint
+      var endpoint = new ConnectionEndpoint
       {
         Hostname = "127.0.0.1",
         Port = 2333
@@ -119,11 +112,11 @@ namespace DiscordBot
         SocketEndpoint = endpoint
       };
 
-      //var lavalink = discord.UseLavalink();
-      */
+      var lavalink = discord.UseLavalink();
+      
       await discord.ConnectAsync();
 
-      //await lavalink.ConnectAsync(lavalinkConfig);
+      await lavalink.ConnectAsync(lavalinkConfig);
 
 
       await Task.Delay(-1);

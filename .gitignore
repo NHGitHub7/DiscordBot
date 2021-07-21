@@ -344,3 +344,5 @@ healthchecksdb
 
 # config stuff
 config.json
+
+database_data
