@@ -20,7 +20,7 @@ namespace DiscordBot
     string addToDb = String.Empty;
     #endregion
 
-    //Statement um Tabelle zu erstellen
+    //Create Table
     public string CreateCustomCommandsTable()
     {
       string statement = "CREATE TABLE 'customcommands' ("
@@ -37,8 +37,8 @@ namespace DiscordBot
       return statement;
     }
 
-    //Methode zum Hinzufügen eines TextCommands
-    [Command("ccAdd")]
+    //Method to add CustomCommand
+    [Command("ccAdd"), Description("Command to create your CustomCommand")]
     public async Task AddDatabaseEntry(CommandContext ctx, string commandName, [RemainingText] string commandResponse)
     {
       try
@@ -57,8 +57,8 @@ namespace DiscordBot
       await ctx.RespondAsync("Command hinzugefügt.");
     }
 
-    //Methode zum Ändern des CommandResponse
-    [Command("ccUpdate")]
+    //Method to update your CommandResponse
+    [Command("ccUpdate"), Description("Command to update your CustomCommand")]
     public async Task UpdateDatabaseEntry(CommandContext ctx, string commandName, [RemainingText] string commandResponse)
     {
       try
@@ -77,8 +77,8 @@ namespace DiscordBot
       await ctx.RespondAsync("Command geändert.");
     }
 
-    //Methode zum Löschen eines Commands aufgrund es Titels
-    [Command("ccDelete")]
+    //Method to delete CustomCommand
+    [Command("ccDelete"), Description("Command to delete your CustomCommand")]
     public async Task DeleteDatabaseEntry(CommandContext ctx, string commandName)
     {
       try
@@ -95,8 +95,8 @@ namespace DiscordBot
       await ctx.RespondAsync("Command gelöscht.");
     }
 
-    //Methode um auf einen Command zu reagieren
-    [Command("ccUse")]
+    //Method to use CustomCommand
+    [Command("ccUse"), Description("Command to use your CustomCommand")]
     public async Task RespondToCommand(CommandContext ctx, string commandName)
     {
       try

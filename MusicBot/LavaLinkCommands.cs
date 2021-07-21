@@ -10,7 +10,8 @@ namespace DiscordBot.MusicBot
 {
   public class LavaLinkCommands : BaseCommandModule
   {
-    [Command("join")]
+    // Method to join bot into Channel
+    [Command("join"), Description("Command to join the Bot into Voice-Channel")]
     public async Task JoinChannel(CommandContext ctx, DiscordChannel channel)
     {
       var lava = ctx.Client.GetLavalink();
@@ -32,7 +33,8 @@ namespace DiscordBot.MusicBot
       await ctx.RespondAsync($"Joined {channel.Name}!");
     }
 
-    [Command("leave")]
+    // Method to kick bot out of Channel
+    [Command("leave"), Description("Command to let the Bot leave Voice-Channel")]
     public async Task LeaveChannel(CommandContext ctx, DiscordChannel channel)
     {
       var lava = ctx.Client.GetLavalink();
@@ -62,7 +64,8 @@ namespace DiscordBot.MusicBot
       await ctx.RespondAsync($"Left {channel.Name}!");
     }
 
-    [Command("play")]
+    // Method to play music
+    [Command("play"), Description("Command to play Music")]
     public async Task Play(CommandContext ctx, [RemainingText] string search)
     {
       if (ctx.Member.VoiceState == null || ctx.Member.VoiceState.Channel == null)
@@ -97,7 +100,8 @@ namespace DiscordBot.MusicBot
       await ctx.RespondAsync($"Spielt jetzt: `{track.Title}`!");
     }
 
-    [Command("pause")]
+    // Method to stop music
+    [Command("pause"), Description("Command to stop Music")]
     public async Task Pause(CommandContext ctx)
     {
       if (ctx.Member.VoiceState == null || ctx.Member.VoiceState.Channel == null)
