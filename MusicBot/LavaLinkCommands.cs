@@ -17,7 +17,7 @@ namespace DiscordBot.MusicBot
       var lava = ctx.Client.GetLavalink();
       if (!lava.ConnectedNodes.Any())
       {
-        await ctx.RespondAsync("Keine Konnektivität zu LavaLink hergestellt.");
+        await ctx.RespondAsync("No Connection to LavaLink");
         return;
       }
 
@@ -25,7 +25,7 @@ namespace DiscordBot.MusicBot
 
       if (channel.Type != ChannelType.Voice)
       {
-        await ctx.RespondAsync("Nicht in einem gültigen Voice-Channel.");
+        await ctx.RespondAsync("Not in a valid Voice-Channel");
         return;
       }
 
@@ -40,7 +40,7 @@ namespace DiscordBot.MusicBot
       var lava = ctx.Client.GetLavalink();
       if (!lava.ConnectedNodes.Any())
       {
-        await ctx.RespondAsync("Keine Konnektivität zu LavaLink hergestellt.");
+        await ctx.RespondAsync("No Connection to LavaLink");
         return;
       }
 
@@ -48,7 +48,7 @@ namespace DiscordBot.MusicBot
 
       if (channel.Type != ChannelType.Voice)
       {
-        await ctx.RespondAsync("Nicht in einem gültigen Voice-Channel.");
+        await ctx.RespondAsync("Not in a valid Voice-Channel");
         return;
       }
 
@@ -56,7 +56,7 @@ namespace DiscordBot.MusicBot
 
       if (conn == null)
       {
-        await ctx.RespondAsync("LavaLink nicht verbunden.");
+        await ctx.RespondAsync("LavaLink not Connected");
         return;
       }
 
@@ -70,7 +70,7 @@ namespace DiscordBot.MusicBot
     {
       if (ctx.Member.VoiceState == null || ctx.Member.VoiceState.Channel == null)
       {
-        await ctx.RespondAsync("Du bist nicht in einem Voice-Channel.");
+        await ctx.RespondAsync("You are not in the same Voice-Channel");
         return;
       }
 
@@ -80,7 +80,7 @@ namespace DiscordBot.MusicBot
 
       if (conn == null)
       {
-        await ctx.RespondAsync("LavaLink nicht verbunden.");
+        await ctx.RespondAsync("LavaLink not Connected");
         return;
       }
 
@@ -89,7 +89,7 @@ namespace DiscordBot.MusicBot
       if (loadResult.LoadResultType == LavalinkLoadResultType.LoadFailed
           || loadResult.LoadResultType == LavalinkLoadResultType.NoMatches)
       {
-        await ctx.RespondAsync($"Songsuche fehlgeschlagen für `{search}`.");
+        await ctx.RespondAsync($"Song Search failed for `{search}`.");
         return;
       }
 
@@ -97,7 +97,7 @@ namespace DiscordBot.MusicBot
 
       await conn.PlayAsync(track);
 
-      await ctx.RespondAsync($"Spielt jetzt: `{track.Title}`!");
+      await ctx.RespondAsync($"Now playing: `{track.Title}`!");
     }
 
     // Method to stop music
@@ -106,7 +106,7 @@ namespace DiscordBot.MusicBot
     {
       if (ctx.Member.VoiceState == null || ctx.Member.VoiceState.Channel == null)
       {
-        await ctx.RespondAsync("Du bist nicht in einem Voice-Channel.");
+        await ctx.RespondAsync("Not in a valid Voice-Channel");
         return;
       }
 
@@ -116,13 +116,13 @@ namespace DiscordBot.MusicBot
 
       if (conn == null)
       {
-        await ctx.RespondAsync("Lavalink nicht verbunden.");
+        await ctx.RespondAsync("Lavalink not Connected");
         return;
       }
 
       if (conn.CurrentState.CurrentTrack == null)
       {
-        await ctx.RespondAsync("Keine Songs geladen.");
+        await ctx.RespondAsync("No Songs loaded");
         return;
       }
 

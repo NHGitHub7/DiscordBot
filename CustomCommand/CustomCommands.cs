@@ -20,23 +20,6 @@ namespace DiscordBot
     string addToDb = String.Empty;
     #endregion
 
-    //Create Table
-    public string CreateCustomCommandsTable()
-    {
-      string statement = "CREATE TABLE 'customcommands' ("
-                         + "'CustomCommandId' int(11) NOT NULL AUTO_INCREMENT,"
-                         + "'CommandName' varchar(100) CHARACTER SET utf8 DEFAULT NULL,"
-                         + "'CommandResponse' varchar(2000) CHARACTER SET utf8 DEFAULT NULL,"
-                         + "'DateCreated' datetime DEFAULT NULL,"
-                         + "'CreatedBy' varchar(100) CHARACTER SET utf8 DEFAULT NULL,"
-                         + "'ModifiedBy' varchar(100) CHARACTER SET utf8 DEFAULT NULL,"
-                         + "'DateModified' datetime DEFAULT NULL,"
-                         + "PRIMARY KEY ('CustomCommandId')"
-                         + ");";
-
-      return statement;
-    }
-
     //Method to add CustomCommand
     [Command("ccAdd"), Description("Command to create your CustomCommand")]
     public async Task AddDatabaseEntry(CommandContext ctx, string commandName, [RemainingText] string commandResponse)
@@ -54,7 +37,7 @@ namespace DiscordBot
         await ctx.RespondAsync(exception.Message);
       }
 
-      await ctx.RespondAsync("Command hinzugefügt.");
+      await ctx.RespondAsync("Added Command");
     }
 
     //Method to update your CommandResponse
@@ -74,7 +57,7 @@ namespace DiscordBot
         await ctx.RespondAsync(exception.Message);
       }
 
-      await ctx.RespondAsync("Command geändert.");
+      await ctx.RespondAsync("Command changed");
     }
 
     //Method to delete CustomCommand
@@ -92,7 +75,7 @@ namespace DiscordBot
         await ctx.RespondAsync(exception.Message);
       }
 
-      await ctx.RespondAsync("Command gelöscht.");
+      await ctx.RespondAsync("Command deleted");
     }
 
     //Method to use CustomCommand
@@ -116,7 +99,7 @@ namespace DiscordBot
           // Problem with DBNull
           if (dbEntry[0].GetValue(5) == System.DBNull.Value)
           {
-            ccTable.ModifiedBy = "Keine Änderungen";
+            ccTable.ModifiedBy = "No Changes";
           }
           else
           {
@@ -135,7 +118,7 @@ namespace DiscordBot
         }
         else
         {
-          ccTable.CommandResponse = "Keine Werte zum Ausgeben gefunden. Eventuell einen falschen Command angesprochen?";
+          ccTable.CommandResponse = "No Commands found. Maybe the wrong Title?";
         }
 
         await ctx.RespondAsync(ccTable.CommandResponse);
