@@ -51,6 +51,9 @@ namespace DiscordBot.Swearwords
       await ctx.RespondAsync(msg);
     }
 
+    /**
+     * Check if the specified cuss already exists in the DB
+     */
     static bool cuss_exists(string cuss)
     {
       string query = "SELECT word " +

@@ -18,9 +18,18 @@ namespace DiscordBot.Swearwords
       swearwords_cache = Database.get_swearwords();
       counter = 0;
     }
+
+    /**
+     * check if the currently written message contains a swearword.
+     *
+     * exclude check for strings that include the commands for adding & removing cusses.
+     * But only if the User has the Permission to use the commands.
+     */
     public static bool is_swearword(string word, MessageCreateEventArgs e)
     {
       List<string> swearwords;
+
+      // who knows how good C# is at keeping count. Refresh is sanity.
       if (counter >= 50)
       {
         swearwords = Database.get_swearwords();
@@ -37,7 +46,7 @@ namespace DiscordBot.Swearwords
       {
         if (word.Contains(i))
         {
-          if (word.Contains("!rmcuss") || word.Contains("!addcuss"))
+          if (word.Contains("!cussadd") || word.Contains("!cussrm"))
           {
             /**
              * Checks if the User has the Administrator Permission
@@ -60,6 +69,10 @@ namespace DiscordBot.Swearwords
       }
       return false;
     }
+
+    /**
+     * Generate Messages for striking a User.
+     */
     static string get_strike_msg(string mention, int strikes)
     {
       if (strikes == 2)
@@ -76,6 +89,9 @@ namespace DiscordBot.Swearwords
       }
     }
 
+    /**
+     * Get the Strikes of a User
+     */
     static int get_strikes(UInt64 user_id)
     {
       object strikes = Database.get_strikes_from_user(user_id);
@@ -89,6 +105,9 @@ namespace DiscordBot.Swearwords
       }
     }
 
+    /**
+     * Update strikes of a user (Set to 1 or increment)
+     */
     static void update_strikes(int strikes, UInt64 user_id)
     {
       if (strikes == 0)
@@ -106,11 +125,19 @@ namespace DiscordBot.Swearwords
       }
     }
 
+    /**
+     * Users are banned if they swear more than 3 times.
+     * Banning happens here.
+     */
     static async Task ban_member(UInt64 user_id, DiscordGuild guild)
     {
       await guild.BanMemberAsync(user_id, 0, "You cussed too much");
     }
 
+    /**
+     * Delete the message with the cuss and also give the user a strike.
+     * Ban the User if he cussed 3 times.
+     */
     public static async Task strike_user(MessageCreateEventArgs e)
     {
       try

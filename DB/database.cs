@@ -10,6 +10,10 @@ namespace DiscordBot.DB
   {
     static MySqlConnection conn;
 
+    /**
+     * Initialize the Database connection pool
+     * This needs to be called at the beginning of the Runtime
+     */
     public static void Init_Database()
     {
       ConfigurationHelper configHelper = new ConfigurationHelper();
@@ -26,6 +30,10 @@ namespace DiscordBot.DB
 
       conn = connection;
     }
+
+    /**
+     * Generic function for running Querys
+     */
     public static List<object[]> runSQL(string query)
     {
 
@@ -49,6 +57,9 @@ namespace DiscordBot.DB
       return tmp;
     }
 
+    /**
+     * Generic function for Querys that return nothing (Inserts) or one value.
+     */
     public static object runScalar(string query)
     {
       MySqlCommand cmd = new MySqlCommand(query, conn);
@@ -59,37 +70,56 @@ namespace DiscordBot.DB
       return return_val;
     }
 
+    /**
+     * Get all currently registered swearwords
+     */
     public static List<string> get_swearwords()
     {
-
-      string query = "SELECT word " +
-       "FROM swearwords";
-      List<string> swearwords = new List<string>();
-
-      var cmd = new MySqlCommand(query, conn);
-      conn.Open();
-      MySqlDataReader reader = cmd.ExecuteReader();
-      while (reader.Read())
+      try
       {
-        swearwords.Add(reader.GetString(0));
-      }
-      conn.Close();
+        List<string> swearwords = new List<string>();
 
-      return swearwords;
+        string query = "SELECT word " +
+        "FROM swearwords";
+
+        var cmd = new MySqlCommand(query, conn);
+        conn.Open();
+        MySqlDataReader reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+          swearwords.Add(reader.GetString(0));
+        }
+        conn.Close();
+
+        return swearwords;
+      }
+      catch
+      {
+        throw new InvalidOperationException("Error reading from `swearwords` table");
+      }
     }
 
+    // @TODO: Move this back to Swearwords class
     public static object get_strikes_from_user(UInt64 user_id)
     {
-      string query = "SELECT strikes " +
-        "FROM swearword_strikes " +
-        $"WHERE user_id = {user_id}";
-      MySqlCommand cmd = new MySqlCommand(query, conn);
-      conn.Open();
-      object strikes = cmd.ExecuteScalar();
-      conn.Close();
-      return strikes;
+      try {
+        string query = "SELECT strikes " +
+          "FROM swearword_strikes " +
+          $"WHERE user_id = {user_id}";
+        MySqlCommand cmd = new MySqlCommand(query, conn);
+        conn.Open();
+        object strikes = cmd.ExecuteScalar();
+        conn.Close();
+        return strikes;
+      }
+      catch {
+        throw new InvalidOperationException("Error getting strikes of a user");
+      }
     }
 
+    /**
+     * If we need to update/setup our DB do this here
+     */
     public static void defaultSetup()
     {
       if (!tablesExist())
@@ -100,6 +130,8 @@ namespace DiscordBot.DB
       }
       else if (!versionUp2Date())
       {
+        // With more time this sould be rewritten to use a second File that only alters the tables.
+        // With this all data currently written to the DB is lost.
         Console.WriteLine("Updated Version available. Rerunning DDL.");
         writeDefaultSetup();
         updateVersion();
@@ -110,8 +142,21 @@ namespace DiscordBot.DB
         Console.WriteLine("DB is up to date");
       }
     }
+
+    /**
+     * Check if the version table exists in our database.
+     */
     static bool tablesExist()
     {
+      string query =
+        "SELECT CREATE_TIME " +
+        "FROM information_schema.tables " +
+        "WHERE table_schema = 'discord_bot' " +
+        "AND table_name = 'version' " +
+        "LIMIT 1";
+
+      var cmd = new MySqlCommand(query, conn);
+
       try
       {
         conn.Open();
@@ -125,14 +170,6 @@ namespace DiscordBot.DB
         System.Environment.Exit(1);
       }
 
-      string query =
-        "SELECT CREATE_TIME " +
-        "FROM information_schema.tables " +
-        "WHERE table_schema = 'discord_bot' " +
-        "AND table_name = 'version' " +
-        "LIMIT 1";
-
-      var cmd = new MySqlCommand(query, conn);
       object check = cmd.ExecuteScalar();
       conn.Close();
 
@@ -146,51 +183,79 @@ namespace DiscordBot.DB
       }
     }
 
+    /**
+     * Get the Version from the db and compare it with the version in our config.json
+     */
     static bool versionUp2Date()
     {
-      ConfigurationHelper configHelper = new ConfigurationHelper();
-      Model.Versioning version_config = configHelper.GetVersion();
-      string query =
-        "SELECT version " +
-        "FROM version " +
-        "WHERE name like 'discord_bot'";
-      conn.Open();
-      var cmd = new MySqlCommand(query, conn);
-      string version_db_str = cmd.ExecuteScalar().ToString();
-      conn.Close();
-      int version_db = Int32.Parse(version_db_str);
+      try {
+        ConfigurationHelper configHelper = new ConfigurationHelper();
+        Model.Versioning version_config = configHelper.GetVersion();
+        string query =
+          "SELECT version " +
+          "FROM version " +
+          "WHERE name like 'discord_bot'";
+        var cmd = new MySqlCommand(query, conn);
+        conn.Open();
+        string version_db_str = cmd.ExecuteScalar().ToString();
+        conn.Close();
+        int version_db = Int32.Parse(version_db_str);
 
-      return version_db == version_config.discord_bot;
+        return version_db == version_config.discord_bot;
+      }
+      catch
+      {
+        throw new InvalidOperationException("Error getting version from the Database");
+      }
     }
 
+    /**
+     * Persist the new version in the database.
+     */
     static void updateVersion()
     {
       ConfigurationHelper configHelper = new ConfigurationHelper();
       Model.Versioning version_config = configHelper.GetVersion();
       if (version_config != null)
       {
-        string query =
-          "UPDATE version " +
-          $"SET version = {version_config.discord_bot} " +
-          "WHERE name like 'discord_bot'";
-        conn.Open();
-        var cmd = new MySqlCommand(query, conn);
-        cmd.ExecuteScalar();
-        conn.Close();
+        try
+        {
+          string query =
+            "UPDATE version " +
+            $"SET version = {version_config.discord_bot} " +
+            "WHERE name like 'discord_bot'";
+          conn.Open();
+          var cmd = new MySqlCommand(query, conn);
+          cmd.ExecuteScalar();
+          conn.Close();
+        }
+        catch
+        {
+          throw new ArgumentException("Could not connect to the DB and update version");
+        }
       }
       else
       {
-        throw new ArgumentException("Parameter discord_bot cannot be null");
+        throw new ArgumentException("Version parameter discord_bot cannot be null");
       }
     }
 
+    /**
+     * Write everything in DDL.sql to the Database
+     */
     static void writeDefaultSetup()
     {
-      conn.Open();
-      string ddl = File.ReadAllText(@"DB\DDL.sql");
-      var cmd = new MySqlCommand(ddl, conn);
-      cmd.ExecuteScalar();
-      conn.Close();
+      try {
+        string ddl = File.ReadAllText(@"DB\DDL.sql");
+        var cmd = new MySqlCommand(ddl, conn);
+        conn.Open();
+        cmd.ExecuteScalar();
+        conn.Close();
+      }
+      catch
+      {
+        throw new ArgumentException("To write the default Tables to the database you need DDL.sql in your path.\n Check if you have it in the right place.");
+      }
     }
   }
 }
