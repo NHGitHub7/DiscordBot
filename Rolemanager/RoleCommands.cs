@@ -19,7 +19,7 @@ namespace DiscordBot.Rolemanager
     [Command("listroles"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !listroles List of all current Roles + passwords and if they are active.")]
     public async Task ListAllCustomRoles(CommandContext ctx)
     {
-      await ListAllCustomRolesFromDB(ctx); 
+      await ListAllCustomRolesFromDB(ctx);
     }
 
     [Command("createrole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !createrole Saves new Role with a password to your DB. Default value for active = true")]
