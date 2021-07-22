@@ -1,0 +1,15 @@
+{
+  "OAuth": {
+    "Token": "ODM5MTI2OTUwMjAyMzEwNjU2.YJFH3w.q3dQ1SdQc6zBkgDHLqoG9nqrAoo"
+  },
+  "DB": {
+    "host": "localhost",
+    "port": 3308,
+    "name": "discord_bot",
+    "user": "root",
+    "password": "Admin_01!"
+  },
+  "Version": {
+    "discord_bot": 2021072202
+  }
+}
