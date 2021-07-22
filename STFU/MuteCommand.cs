@@ -51,4 +51,4 @@ namespace DiscordBot.STFU
     }
   }
 }
- 
+
