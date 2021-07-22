@@ -12,7 +12,7 @@ namespace DiscordBot.Swearwords
 {
   public class Commands : BaseCommandModule
   {
-    [Command("addcuss"), RequirePermissions(Permissions.Administrator)]
+    [Command("cussAdd"), RequirePermissions(Permissions.Administrator), Description("Adds the provided word to your registered cusses")]
     public async Task add_cuss_to_db(CommandContext ctx, string cuss_input)
     {
       string cuss_clean = cuss_input.ToLower();
@@ -28,19 +28,18 @@ namespace DiscordBot.Swearwords
         Blacklist.init();
         await ctx.RespondAsync($"Cuss '{cuss_input}' Added.");
       }
-      //}
     }
 
-    [Command("rmcuss"), RequirePermissions(Permissions.Administrator)]
-    public async Task rm_cuss_from_db(CommandContext ctx, string cuss)
+    [Command("cussRm"), RequirePermissions(Permissions.Administrator), Description("Removes the provided word from your registered cusses")]
+    public async Task rm_cuss_from_db(CommandContext ctx, string word)
     {
       string query = "DELETE FROM swearwords " +
-        $"WHERE word LIKE '{cuss}'";
+        $"WHERE word LIKE '{word}'";
       Database.runScalar(query);
       await ctx.RespondAsync("Cuss removed;");
     }
 
-    [Command("listcusses")]
+    [Command("cussList"), Description("Lists all registered cusses")]
     public async Task list_cusses_from_db(CommandContext ctx)
     {
       List<string> cuss_list = Database.get_swearwords();
@@ -52,6 +51,9 @@ namespace DiscordBot.Swearwords
       await ctx.RespondAsync(msg);
     }
 
+    /**
+     * Check if the specified cuss already exists in the DB
+     */
     static bool cuss_exists(string cuss)
     {
       string query = "SELECT word " +
