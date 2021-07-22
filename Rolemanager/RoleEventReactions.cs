@@ -85,14 +85,14 @@ namespace DiscordBot.Rolemanager
       foreach (var guild in rcTable.arrayGuilds)
       {
         rcTable.arrayRoles = new List<DiscordRole>(guild.Roles.Values).ToArray();
-        foreach(var role in rcTable.arrayRoles)
+        foreach (var role in rcTable.arrayRoles)
         {
-          
-            if (role.Name != "@everyone")
-            {
-              sqlQuery = $"INSERT INTO customroles(rolename, password, active) VALUES ('{role.Name}', 'default', false)";
-              Database.runSQL(sqlQuery);
-            }
+
+          if (role.Name != "@everyone")
+          {
+            sqlQuery = $"INSERT INTO customroles(rolename, password, active) VALUES ('{role.Name}', 'default', false)";
+            Database.runSQL(sqlQuery);
+          }
 
         }
       }

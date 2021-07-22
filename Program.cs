@@ -56,7 +56,7 @@ namespace DiscordBot
         TokenType = TokenType.Bot,
         Intents = DiscordIntents.All
       });
-      
+
       /*
        * Command Prefix you need, to use the Command.
        */
@@ -71,7 +71,7 @@ namespace DiscordBot
 
       RoleEventReactions roleEvents = new RoleEventReactions();
 
-      
+
       discord.MessageCreated += async (s, e) =>
         {
           /*
@@ -113,7 +113,7 @@ namespace DiscordBot
       };
 
       var lavalink = discord.UseLavalink();
-      
+
       await discord.ConnectAsync();
 
       await lavalink.ConnectAsync(lavalinkConfig);
@@ -121,7 +121,7 @@ namespace DiscordBot
 
       await Task.Delay(-1);
 
-      
+
     }
   }
 }

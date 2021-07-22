@@ -18,11 +18,11 @@ namespace DiscordBot.Rolemanager
     {
       await ListAllCustomRolesFromDB(ctx);
     }
-    
+
     [Command("createrole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !createrole Saves new Role with a password to your DB. Default value for active = true")]
     public async Task AddKeyCodeToRole(CommandContext ctx, string rolename, string password, bool active = true)
     {
-       await SaveRoleToDB(rolename, password, active,  ctx);
+      await SaveRoleToDB(rolename, password, active, ctx);
     }
     [Command("updaterole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !updaterole Updates Password of existing Role in your DB. Default value for active = true")]
     public async Task UpdateKeyCodeFromRole(CommandContext ctx, string rolename, string password, bool active = true)
@@ -32,7 +32,7 @@ namespace DiscordBot.Rolemanager
     [Command("deleterole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !deleterole It deletes a custom Role in your DB with its password.")]
     public async Task DeleteRole(CommandContext ctx, string rolename, string password)
     {
-        await DeleteRoleInDB(rolename, password, ctx);
+      await DeleteRoleInDB(rolename, password, ctx);
     }
     [Command("setactive"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !setactive Activate a Role or deactivate, if its active the password can be used for new Members else it can't. Default value for active = true")]
     public async Task ActivateRoleOrDeactivate(CommandContext ctx, string rolename, bool active = true)
@@ -48,7 +48,7 @@ namespace DiscordBot.Rolemanager
       {
 
         await ctx.RespondAsync("Rolename: " + returnsql[i][0].ToString() + " \r\nPassword: " + returnsql[i][1].ToString() + " \r\nActive: " + returnsql[i][2].ToString());
-        
+
       };
     }
     private async Task SaveRoleToDB(string customrolename, string custompassword, bool active, CommandContext ctx)
@@ -89,7 +89,7 @@ namespace DiscordBot.Rolemanager
         string sqlQuery = $"DELETE FROM customroles WHERE rolename = '{customrolename}'";
         Database.runSQL(sqlQuery);
         await ctx.RespondAsync($"{customrolename} is now deleted!");
-      } 
+      }
       else if (exists == false)
       {
         await ctx.RespondAsync("You can't delete a Role that does not exist.");
