@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordBot", "DiscordBot.csproj", "{F96F2FCB-A30B-47A0-A79D-FDBA761A6EF8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4745625E-F265-44AB-9758-0004B107FE0F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,10 +20,6 @@ Global
 		{F96F2FCB-A30B-47A0-A79D-FDBA761A6EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F96F2FCB-A30B-47A0-A79D-FDBA761A6EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F96F2FCB-A30B-47A0-A79D-FDBA761A6EF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F825CEC-E564-4C10-8640-2A3A787F400B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F825CEC-E564-4C10-8640-2A3A787F400B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F825CEC-E564-4C10-8640-2A3A787F400B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F825CEC-E564-4C10-8640-2A3A787F400B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
