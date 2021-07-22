@@ -4,8 +4,8 @@ using System.Text;
 
 namespace DiscordBot.Model
 {
-  class OAuthorization
+  class Versioning
   {
-    public string Token { get; set; }
+    public int discord_bot { get; set; }
   }
 }

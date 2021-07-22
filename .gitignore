@@ -341,3 +341,8 @@ healthchecksdb
 
 # VS Code stuff
 .vscode/
+
+# config stuff
+config.json
+
+database_data

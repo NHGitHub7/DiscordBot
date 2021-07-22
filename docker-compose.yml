@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  db:
+    image: mariadb
+    ports:
+      - "3308:3306"
+    volumes:
+      - "./database_data/:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=Admin_01!
+      - MYSQL_DATABASE=discord_bot
+
+  lavalink:
+    image: fredboat/lavalink:2ac6bf4e
+    ports:
+      - "2333:2333"
+    volumes:
+      - "./MusicBot/application.yml:/opt/Lavalink/application.yml"
