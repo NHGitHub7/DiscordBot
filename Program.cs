@@ -24,6 +24,9 @@ namespace DiscordBot
 {
   class Program
   {
+    /*
+     * Start Method in C# Console App
+     */
     static void Main(string[] args)
     {
       ConfigurationHelper configHelper = new ConfigurationHelper();
@@ -44,6 +47,10 @@ namespace DiscordBot
         Console.WriteLine("Check your config, maybe something is missing!");
       }
     }
+
+    /*
+     * async Task Main Method
+     */
     static async Task MainAsync()
     {
       ConfigurationHelper configurationHelper = new ConfigurationHelper();

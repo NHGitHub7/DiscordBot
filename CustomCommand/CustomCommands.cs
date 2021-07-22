@@ -20,7 +20,9 @@ namespace DiscordBot
     string addToDb = String.Empty;
     #endregion
 
-    //Method to add CustomCommand
+    /*
+     * Method to add CustomCommand
+     */
     [Command("ccAdd"), Description("Command to create your CustomCommand")]
     public async Task AddDatabaseEntry(CommandContext ctx, string commandName, [RemainingText] string commandResponse)
     {
@@ -40,7 +42,9 @@ namespace DiscordBot
       await ctx.RespondAsync("Added Command");
     }
 
-    //Method to update your CommandResponse
+    /*
+     * Method to update your CommandResponse
+     */
     [Command("ccUpdate"), Description("Command to update your CustomCommand")]
     public async Task UpdateDatabaseEntry(CommandContext ctx, string commandName, [RemainingText] string commandResponse)
     {
@@ -60,7 +64,9 @@ namespace DiscordBot
       await ctx.RespondAsync("Command changed");
     }
 
-    //Method to delete CustomCommand
+    /*
+     * Method to delete CustomCommand
+     */
     [Command("ccDelete"), Description("Command to delete your CustomCommand")]
     public async Task DeleteDatabaseEntry(CommandContext ctx, string commandName)
     {
@@ -78,7 +84,9 @@ namespace DiscordBot
       await ctx.RespondAsync("Command deleted");
     }
 
-    //Method to use CustomCommand
+    /*
+    * Method to use CustomCommand
+    */
     [Command("ccUse"), Description("Command to use your CustomCommand")]
     public async Task RespondToCommand(CommandContext ctx, string commandName)
     {

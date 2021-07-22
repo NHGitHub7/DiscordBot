@@ -7,12 +7,20 @@ namespace DiscordBot.Helper
 {
   class ConfigurationHelper
   {
+    /*
+     * Methods to get Values from JSON
+     */
     public IConfigurationBuilder Builder()
     {
       var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("config.json", optional: false);
 
       return builder;
     }
+
+    /*
+     * Methods to get Values from JSON
+     */
+    #region Get config.json Data Methods
 
     public OAuthorization GetOAuthValue()
     {
@@ -37,6 +45,6 @@ namespace DiscordBot.Helper
 
       return config.GetSection("Version").Get<Versioning>();
     }
-
+    #endregion
   }
 }
