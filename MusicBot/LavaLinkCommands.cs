@@ -109,7 +109,7 @@ namespace DiscordBot.MusicBot
     /*
      * Method to stop Music
      */
-    [Command("pause"), Description("Command to stop Music")]
+    [Command("stop"), Description("Command to stop Music")]
     public async Task Pause(CommandContext ctx)
     {
       if (ctx.Member.VoiceState == null || ctx.Member.VoiceState.Channel == null)

@@ -23,7 +23,6 @@ namespace DiscordBot.STFU
     public async Task STFU(CommandContext ctx)
     {
       MuteCommandTable mcTable = new MuteCommandTable();
-      await ctx.RespondAsync("Silence!");
       mcTable.arrayChannels = new List<DiscordChannel>(ctx.Guild.Channels.Values).ToArray();
       foreach (var arrayChannel in mcTable.arrayChannels)
       {
