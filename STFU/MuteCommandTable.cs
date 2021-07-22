@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using DSharpPlus.Entities;
 
-namespace DiscordBot.Rolemanager
+namespace DiscordBot.STFU
 {
-  class RoleCommandTable
+  class MuteCommandTable
   {
     public DiscordChannel[] arrayChannels { get; set; }
-    public DiscordGuild[] arrayGuilds { get; set; }
-    public DiscordRole[] arrayRoles { get; set; }
-
+    public DiscordMember[] arrayMembers { get; set; }
   }
 }

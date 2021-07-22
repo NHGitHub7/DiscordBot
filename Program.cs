@@ -17,9 +17,10 @@ using DSharpPlus.Entities;
 using DSharpPlus.Lavalink;
 using DSharpPlus.Net;
 using DiscordBot.MusicBot;
-
+using DiscordBot.STFU;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Converters;
+
 namespace DiscordBot
 {
   class Program
@@ -75,16 +76,13 @@ namespace DiscordBot
       commands.RegisterCommands<CustomCommands>();
       commands.RegisterCommands<RoleCommands>();
       commands.RegisterCommands<Swearwords.Commands>();
+      commands.RegisterCommands<MuteCommand>();
 
       RoleEventReactions roleEvents = new RoleEventReactions();
 
 
       discord.MessageCreated += async (s, e) =>
         {
-          /*
-           * If you have Questions ask me, unable to use messageDistributor because it is not an async Task,
-           * i need the await for that GrantRoleAsync Task vgl. Rolemanager/RoleEventReactions.cs line 56.
-           */
           if (e.Channel.IsPrivate == true && e.Author.IsBot == false)
           {
             await roleEvents.ReactOnUserMessage(e, discord);
@@ -102,6 +100,9 @@ namespace DiscordBot
         await roleEvents.ReactOnUserJoin(s, e);
       };
 
+      /*
+       * Event that reacts when the Guild is ready.
+       */
       discord.GuildAvailable += async (s, e) =>
       {
         await roleEvents.SetRolesToDB(discord);
