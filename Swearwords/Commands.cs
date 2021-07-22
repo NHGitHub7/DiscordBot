@@ -37,6 +37,7 @@ namespace DiscordBot.Swearwords
         $"WHERE word LIKE '{word}'";
       Database.runScalar(query);
       await ctx.RespondAsync("Cuss removed;");
+      Blacklist.init();
     }
 
     [Command("cussList"), Description("Lists all registered cusses")]

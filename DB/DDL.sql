@@ -6,7 +6,7 @@ CREATE TABLE version (
   PRIMARY KEY (version_id)
 );
 
-INSERT INTO version(name, version) VALUES ("discord_bot", "2021061400");
+INSERT INTO version(name, version) VALUES ("discord_bot", "2021072200");
 
 DROP TABLE IF EXISTS customcommands;
 CREATE TABLE customcommands (
