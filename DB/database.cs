@@ -102,7 +102,8 @@ namespace DiscordBot.DB
     // @TODO: Move this back to Swearwords class
     public static object get_strikes_from_user(UInt64 user_id)
     {
-      try {
+      try
+      {
         string query = "SELECT strikes " +
           "FROM swearword_strikes " +
           $"WHERE user_id = {user_id}";
@@ -112,7 +113,8 @@ namespace DiscordBot.DB
         conn.Close();
         return strikes;
       }
-      catch {
+      catch
+      {
         throw new InvalidOperationException("Error getting strikes of a user");
       }
     }
@@ -188,7 +190,8 @@ namespace DiscordBot.DB
      */
     static bool versionUp2Date()
     {
-      try {
+      try
+      {
         ConfigurationHelper configHelper = new ConfigurationHelper();
         Model.Versioning version_config = configHelper.GetVersion();
         string query =
@@ -245,7 +248,8 @@ namespace DiscordBot.DB
      */
     static void writeDefaultSetup()
     {
-      try {
+      try
+      {
         string ddl = File.ReadAllText(@"DB\DDL.sql");
         var cmd = new MySqlCommand(ddl, conn);
         conn.Open();
