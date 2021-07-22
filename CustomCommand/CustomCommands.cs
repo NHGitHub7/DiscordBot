@@ -136,5 +136,37 @@ namespace DiscordBot
         await ctx.RespondAsync(ex.Message);
       }
     }
+
+    /*
+    * Method to get CustomCommand List
+    */
+    [Command("ccList"), Description("Command to get CustomCommandList")]
+    public async Task CommandList(CommandContext ctx)
+    {
+      try
+      {
+        var dbEntry = Database.runSQL($"Select * FROM CustomCommands");
+
+        string response = String.Empty;
+
+        if (dbEntry.Count != 0)
+        {
+          foreach (var item in dbEntry)
+          {
+            response = response + "\n```\n" + item.GetValue(1) + "\n" + item.GetValue(2) + "```";
+          }
+        }
+        else
+        {
+          response = "No Commands found";
+        }
+
+        await ctx.RespondAsync(response);
+      }
+      catch (Exception ex)
+      {
+        await ctx.RespondAsync(ex.Message);
+      }
+    }
   }
 }
