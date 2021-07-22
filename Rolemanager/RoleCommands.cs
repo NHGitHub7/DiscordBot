@@ -13,16 +13,19 @@ namespace DiscordBot.Rolemanager
 {
   public class RoleCommands : BaseCommandModule
   {
+    /*
+     * Comments are above the Methods that are used inside the Commands.
+     */
     [Command("listroles"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !listroles List of all current Roles + passwords and if they are active.")]
     public async Task ListAllCustomRoles(CommandContext ctx)
     {
-      await ListAllCustomRolesFromDB(ctx);
+      await ListAllCustomRolesFromDB(ctx); 
     }
 
     [Command("createrole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !createrole Saves new Role with a password to your DB. Default value for active = true")]
     public async Task AddKeyCodeToRole(CommandContext ctx, string rolename, string password, bool active = true)
     {
-      await SaveRoleToDB(rolename, password, active, ctx);
+      await CreateRoleInDB(rolename, password, active, ctx);
     }
     [Command("updaterole"), RequirePermissions(Permissions.Administrator), Description("Command Usage: !updaterole Updates Password of existing Role in your DB. Default value for active = true")]
     public async Task UpdateKeyCodeFromRole(CommandContext ctx, string rolename, string password, bool active = true)
@@ -40,6 +43,9 @@ namespace DiscordBot.Rolemanager
       await ActivateRoleOrDeactivateInDB(rolename, active, ctx);
     }
 
+    /*
+     * Gets all current Roles with Password from the DB and lists it in a reply Message
+     */
     private async Task ListAllCustomRolesFromDB(CommandContext ctx)
     {
       string sqlQuery = "SELECT rolename, password, active FROM customroles";
@@ -51,7 +57,11 @@ namespace DiscordBot.Rolemanager
 
       };
     }
-    private async Task SaveRoleToDB(string customrolename, string custompassword, bool active, CommandContext ctx)
+    /*
+     * Creates a Role in DB with password and if they are active. You have to create it via this command
+     * if you are creating a new Role on your Guild.
+     */
+    private async Task CreateRoleInDB(string customrolename, string custompassword, bool active, CommandContext ctx)
     {
       string sqlQuery = $"SELECT * FROM customroles WHERE rolename='{customrolename}'";
       var returnsql = Database.runSQL(sqlQuery);
@@ -66,6 +76,9 @@ namespace DiscordBot.Rolemanager
       }
     }
 
+    /*
+     * Update a role with the password in your DB. You also have to set if its active or not.
+     */
     private async Task UpdateRoleInDB(string customrolename, string custompassword, bool active, CommandContext ctx)
     {
       bool exists = CheckIfRoleExists(customrolename);
@@ -81,6 +94,9 @@ namespace DiscordBot.Rolemanager
       }
     }
 
+    /*
+     * Deletes a Role from the DB with the password and if its active or not.
+     */
     private async Task DeleteRoleInDB(string customrolename, string custompassword, CommandContext ctx)
     {
       bool exists = CheckIfRoleExists(customrolename);
@@ -96,6 +112,9 @@ namespace DiscordBot.Rolemanager
       }
     }
 
+    /*
+     * Set a role in your DB to active or deactivate it, so the password can or can't be used.
+     */
     private async Task ActivateRoleOrDeactivateInDB(string customrolename, bool active, CommandContext ctx)
     {
       bool exists = CheckIfRoleExists(customrolename);
@@ -118,6 +137,10 @@ namespace DiscordBot.Rolemanager
       }
     }
 
+    /*
+     * Had to use the same Functions multiple Times, just refactored it in this method.
+     * It checks if a role exists in the DB.
+     */
     private bool CheckIfRoleExists(string customrolename)
     {
       string sqlQuery = $"SELECT rolename FROM customroles";
