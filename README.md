@@ -29,3 +29,7 @@ Im Incognito-Modus, einem [Container](https://addons.mozilla.org/de/firefox/addo
 
 Unter `+` "Add a Server" einen Server hinzufügen.
 Dann [den Bot hinzufügen](https://discord.com/api/oauth2/authorize?client_id=839126950202310656&permissions=8&scope=bot), den Server auswählen, Autorisieren, Captcha clicken und Fertig 🎉
+
+## Bot Commands
+
+Bitte besuchen sie unser schönes [Wiki](https://github.com/NHGitHub7/DiscordBot/wiki)
