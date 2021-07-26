@@ -5,11 +5,16 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Lavalink;
 using System.Linq;
+using System;
 
 namespace DiscordBot.MusicBot
 {
   public class LavaLinkCommands : BaseCommandModule
   {
+    private LavalinkNodeConnection Lavalink { get; set; }
+    private LavalinkGuildConnection LavalinkVoice { get; set; }
+    private DiscordChannel ContextChannel { get; set; }
+
     /*
      * Method to join bot into Channel
      */
@@ -135,6 +140,75 @@ namespace DiscordBot.MusicBot
       }
 
       await conn.PauseAsync();
+    }
+
+    /*
+     * Method to pause Music
+     */
+    [Command("pause"), Description("Command to pause Music")]
+    public async Task PauseAsync(CommandContext ctx)
+    {
+      if (this.LavalinkVoice == null)
+        return;
+
+      await this.LavalinkVoice.PauseAsync().ConfigureAwait(false);
+      await ctx.RespondAsync("Paused playing").ConfigureAwait(false);
+    }
+
+    /*
+     * Method to resume Music
+     */
+    [Command("resume"), Description("Command to resume Music")]
+    public async Task ResumeAsync(CommandContext ctx)
+    {
+      if (this.LavalinkVoice == null)
+        return;
+
+      await this.LavalinkVoice.ResumeAsync().ConfigureAwait(false);
+      await ctx.RespondAsync("Resumed playing").ConfigureAwait(false);
+    }
+
+    /*
+     * Method to play TimeSpan from Song
+     */
+    [Command("playpart"), Description("Command to play TimeSpan from Song")]
+    public async Task PlayPartialAsync(CommandContext ctx, TimeSpan start, TimeSpan stop, [RemainingText] Uri uri)
+    {
+      if (this.LavalinkVoice == null)
+        return;
+
+      var trackLoad = await this.Lavalink.Rest.GetTracksAsync(uri).ConfigureAwait(false);
+      var track = trackLoad.Tracks.First();
+      await this.LavalinkVoice.PlayPartialAsync(track, start, stop).ConfigureAwait(false);
+
+      await ctx.RespondAsync($"Now playing: {Formatter.Bold(Formatter.Sanitize(track.Title))} by {Formatter.Bold(Formatter.Sanitize(track.Author))}").ConfigureAwait(false);
+    }
+
+    /*
+     * Method to change Volume
+     */
+    [Command("volume"), Description("Command to change Volume")]
+    public async Task VolumeAsync(CommandContext ctx, int volume)
+    {
+      if (this.LavalinkVoice == null)
+        return;
+
+      await this.LavalinkVoice.SetVolumeAsync(volume).ConfigureAwait(false);
+      await ctx.RespondAsync($"Volume set to {volume}%").ConfigureAwait(false);
+    }
+
+    /*
+     * Method to get current Song
+     */
+    [Command("nowplaying"), Description("Command to show current Song")]
+    public async Task NowPlayingAsync(CommandContext ctx)
+    {
+      if (this.LavalinkVoice == null)
+        return;
+
+      var state = this.LavalinkVoice.CurrentState;
+      var track = state.CurrentTrack;
+      await ctx.RespondAsync($"Now playing: {Formatter.Bold(Formatter.Sanitize(track.Title))} by {Formatter.Bold(Formatter.Sanitize(track.Author))} [{state.PlaybackPosition}/{track.Length}].").ConfigureAwait(false);
     }
   }
 }
